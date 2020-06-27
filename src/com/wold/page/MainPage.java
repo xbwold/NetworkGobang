@@ -86,11 +86,12 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 
 		startMonitor();
 
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 获取屏幕大小
-		int centerX = screenSize.width / 2;
-		int centerY = screenSize.height / 2;
-		this.setLocation(centerX - 1400 / 2, centerY - 800 / 2);// 屏幕居中显示
-
+//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 获取屏幕大小
+//		int centerX = screenSize.width / 2;
+//		int centerY = screenSize.height / 2;
+//		this.setLocation(centerX - 1400 / 2, centerY - 800 / 2);// 屏幕居中显示
+		
+		this.setLocationRelativeTo(null);	//位于屏幕居中
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -224,26 +225,26 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == start) {
-			String str1;
-			String str2;
-			
-			String part = ip.getText();
-			if (part.equals("9999") && server == null) {
-				isServer = true;
-				contre.setChickeAble(true);
-				player = new Player(1, 1);
-				server = new Server(part, showMessage,player);
-				server.start();
-				time=new TimeThread(countDown);
-				time.start();
-			} else { // 构造正则表达式ip地址语句
-				isServer = false;
-				contre.setChickeAble(false);
-				player = new Player(2, 0);
-				clinet = new Clinet(part,showMessage,player);
-				clinet.start();
-				
-			}
+//			String str1;
+//			String str2;
+//			
+//			String part = ip.getText();
+//			if (part.equals("9999") && server == null) {
+//				isServer = true;
+//				contre.setChickeAble(true);
+//				player = new Player(1, 1);
+//				server = new Server(part, showMessage,player);
+//				server.start();
+//				time=new TimeThread(countDown);
+//				time.start();
+//			} else { // 构造正则表达式ip地址语句
+//				isServer = false;
+//				contre.setChickeAble(false);
+//				player = new Player(2, 0);
+//				clinet = new Clinet(part,showMessage,player);
+//				clinet.start();
+//				
+//			}
 
 		} else if (e.getSource() == remake) {
 			System.out.println("悔棋");
@@ -259,7 +260,7 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 					showMessage.append(message+"\n");
 					input.setText("");
 					if (isServer) {
-						server.sendMessage(message);
+						//server.sendMessage(message);
 					} else {
 						clinet.sendMessage(message);
 					}
@@ -322,7 +323,7 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 					contre.setChickeAble(false);
 					String message="0:"+px+":"+py;
 					if(player.getRole()==1) {
-						server.sendMessage(message);
+						//server.sendMessage(message);
 					}else {
 						clinet.sendMessage(message);
 					}
@@ -332,18 +333,17 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 					//判断是否结束游戏
 					int win=Judge.whowin(px, py, player.getPlayerChessCoord(), player.getRole());
 					String winMessage="";
-					JOptionPane winShow=new JOptionPane();
 					if(win==player.getRole()) {
 						winMessage="恭喜您获得胜利!";
 						if(player.getRole()==1) {
-							server.sendMessage("2:"+winMessage);
+							//server.sendMessage("2:"+winMessage);
 							//改变状态
 							player.setState(1);
 							MainPage.contre.setChickeAble(true);
 							MainPage.time=new TimeThread(MainPage.countDown);
 							MainPage.state1.setText("状态:等待...");
 							MainPage.state2.setText("状态:下棋...");
-							winShow.showMessageDialog(this, winMessage);
+							JOptionPane.showMessageDialog(this, winMessage);
 							MainPage.time.start();
 						}else {
 							clinet.sendMessage("2:"+winMessage);
@@ -352,7 +352,7 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 							MainPage.contre.setChickeAble(false);
 							MainPage.state1.setText("状态:等待...");
 							MainPage.state2.setText("状态:下棋...");
-							winShow.showMessageDialog(this, winMessage);
+							JOptionPane.showMessageDialog(this, winMessage);
 						}
 						player.initPlayerChessCoord();
 						repaint();

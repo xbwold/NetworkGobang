@@ -110,8 +110,8 @@ public class ChessBoard extends JPanel {
 
 	public void loadImages() {
 		checkerBoard = Toolkit.getDefaultToolkit().getImage("src/image/chessBoard.png");
-		whiteChess = Toolkit.getDefaultToolkit().getImage("src/image/white2.png");
-		blackChess = Toolkit.getDefaultToolkit().getImage("src/image/black2.png");
+		whiteChess = Toolkit.getDefaultToolkit().getImage("src/image/white.png");
+		blackChess = Toolkit.getDefaultToolkit().getImage("src/image/black.png");
 	}
 
 }

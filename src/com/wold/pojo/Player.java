@@ -1,11 +1,21 @@
 package com.wold.pojo;
 
+import java.net.Socket;
+
 public class Player {
 	private String name;
-	//private int[][] myChessCoord = new int[16][16];
 	public static int[][] playerChessCoord = new int[16][16];
 	private int role;	//角色棋子颜色,1黑2白
 	private int state;	//玩家状态,0等待1下棋
+	private Socket socket;	//记录玩家的socket
+	public Socket getSocket() {
+		return socket;
+	}
+
+	public void setSocket(Socket socket) {
+		this.socket = socket;
+	}
+
 	public String getName() {
 		return name;
 	}
