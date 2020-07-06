@@ -23,7 +23,7 @@ public class TimeThread extends Thread{
 			//30秒倒计时
 			label.setText("倒计时:"+String.valueOf(30-time/1000)+"s");
 			//如果30秒结束，督促
-			if(label.getText().equals("0"))
+			if(label.getText().equals("倒计时:0s"))
 			{
 				this.interrupt();
 				label.setText("对手等到花儿都谢了，赶紧的！");

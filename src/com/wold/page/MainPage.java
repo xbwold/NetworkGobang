@@ -14,7 +14,9 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -39,36 +41,59 @@ import com.wold.pojo.Player;
 
 @SuppressWarnings("serial")
 public class MainPage extends JFrame implements MouseListener, MouseMotionListener, ActionListener {
-	public static MainPage main;
+	//public static MainPage main;
 	private JPanel left;
 	public static ChessBoard contre;
 	private JPanel right;
-	private JTextField ip;
-	private JButton start;
-	private JButton remake;
-	private JButton lose;
-	private JButton quit;
+	//private JTextField ip;
+	public JButton start;
+	public JButton remake;	//悔棋以及认输都需要到自己下棋才能操作
+	public JButton lose;
+	public JButton quit;
 	private JTextArea showMessage;
+	public JTextArea getShowMessage() {
+		return showMessage;
+	}
 	private JTextField input;
 	private JButton send;
 
-	private Server server = null;
-	private Clinet clinet = null;
+	private Clinet clinet ;
 	private Boolean isServer = null;
 	private JLabel nameServer;
 	private JLabel nameClinet;
+	public void setNameClinet(String name) {
+		nameClinet.setText(name);
+	}
 	public static JLabel countDown;
 	public static JLabel state1;
 	public static JLabel state2;
+	
 	private Player player;
 	
-	public static TimeThread time;
-	public MainPage() {
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public static TimeThread time;//倒计时
+	
+	public int prepare;	//房间中准备的人数
+	public MainPage(String mainName,String clinetName,Clinet clinet) {
+		prepare=0;
+		nameServer = new JLabel(mainName, JLabel.CENTER);
+		nameClinet = new JLabel(clinetName, JLabel.CENTER);
+		this.clinet=clinet;
 		init();
+		if("等待玩家加入".equals(clinetName)) {//房主
+			player=new Player(1,0);
+			start.setEnabled(false);
+		}else {
+			player=new Player(2,0);
+		}
+		
 	}
 
 	public static void main(String[] args) {
-		main=new MainPage();
+		new MainPage("1","1",null);
 	}
 
 	public void init() {
@@ -90,7 +115,6 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 //		int centerX = screenSize.width / 2;
 //		int centerY = screenSize.height / 2;
 //		this.setLocation(centerX - 1400 / 2, centerY - 800 / 2);// 屏幕居中显示
-		
 		this.setLocationRelativeTo(null);	//位于屏幕居中
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -119,10 +143,10 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 		JLabel head2 = new JLabel(headImage2);
 		head2.setPreferredSize(new Dimension(100, 100));// 设置按钮大小
 		head2.setBorder(BorderFactory.createLineBorder(Color.black));
-		nameServer = new JLabel("憨憨林", JLabel.CENTER);
+		//名字标签属性
 		nameServer.setPreferredSize(new Dimension(200, 50));// 设置按钮大小
 		nameServer.setBorder(BorderFactory.createLineBorder(Color.red));
-		nameClinet = new JLabel("憨憨熊", JLabel.CENTER);
+		
 		nameClinet.setPreferredSize(new Dimension(200, 50));// 设置按钮大小
 		nameClinet.setBorder(BorderFactory.createLineBorder(Color.red));
 		JLabel win1 = new JLabel("胜率:0%", JLabel.CENTER);
@@ -174,8 +198,7 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 		right.setLayout(fl);
 		right.setSize(330, 800);
 		right.setLocation(1070, 0);
-		right.setBackground(Color.blue);
-		ip = new JTextField("输入对方ip地址:端口(主持时输入端口)", 20);
+		right.setBackground(Color.blue);		
 		start = new JButton("开始游戏");
 		start.setPreferredSize(new Dimension(200, 50));// 设置按钮大小
 		start.setFont(new Font("宋体", Font.BOLD, 20));
@@ -188,7 +211,7 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 		quit = new JButton("返回");
 		quit.setPreferredSize(new Dimension(200, 50));
 		quit.setFont(new Font("宋体", Font.BOLD, 20));
-		showMessage = new JTextArea(20, 25);
+		showMessage = new JTextArea(23, 25);
 		showMessage.setEditable(false);
 		showMessage.setLineWrap(true);
 		JScrollPane scrollpane = new JScrollPane(showMessage); // 将TextArea包装到JScrollPane中实现滚轮效果
@@ -197,7 +220,6 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 		input = new JTextField(20);
 		send = new JButton("发送");
 		start.setSize(20, 20);
-		right.add(ip);
 		right.add(start);
 		right.add(remake);
 		right.add(lose);
@@ -224,46 +246,81 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == start) {
-//			String str1;
-//			String str2;
-//			
-//			String part = ip.getText();
-//			if (part.equals("9999") && server == null) {
-//				isServer = true;
-//				contre.setChickeAble(true);
-//				player = new Player(1, 1);
-//				server = new Server(part, showMessage,player);
-//				server.start();
-//				time=new TimeThread(countDown);
-//				time.start();
-//			} else { // 构造正则表达式ip地址语句
-//				isServer = false;
-//				contre.setChickeAble(false);
-//				player = new Player(2, 0);
-//				clinet = new Clinet(part,showMessage,player);
-//				clinet.start();
-//				
-//			}
+		if (e.getSource() == start) {	//准备游戏
+			prepare+=1;
+			start.setEnabled(false);
+			String message="2:"+"start";
+			clinet.sendMessage(message);
+			if(prepare>=2) {
+				if(player.getRole()==1) {
+					contre.setChickeAble(true);
+					lose.setEnabled(true);
+					quit.setEnabled(false);
+					player.setState(1);
+					time=new TimeThread(countDown);
+					time.start();
+					start.setText("游戏中");
+				}else {
+					contre.setChickeAble(false);
+					player.setState(0);
+					start.setText("游戏中");
+					remake.setEnabled(false);
+					lose.setEnabled(false);
+				}
+			}else {
+				start.setText("等待对手准备");
+			}
 
-		} else if (e.getSource() == remake) {
-			System.out.println("悔棋");
-		} else if (e.getSource() == lose) {
-			System.out.println("认输");
-		} else if (e.getSource() == quit) {
+		} else if (e.getSource() == remake) {	//悔棋
+			if(player.getRecord().getSize()>=2) {
+				String message="7:0";	//发送悔棋请求
+				clinet.sendMessage(message);
+				contre.setChickeAble(false);
+				remake.setEnabled(false);
+				remake.setText("等待对方回复");
+				//List list=player.getRecord().pop();
+				//System.out.println("悔棋:"+list.get(0)+","+list.get(1));
+			}else {
+				JOptionPane.showMessageDialog(this, "步数不够无法悔棋", "悔棋提示",JOptionPane.INFORMATION_MESSAGE);
+			}
+		} else if (e.getSource() == lose) {	//认输
+			time.interrupt();//结束倒计时
+			String message="8:0";
+			clinet.sendMessage(message);
+			
+			prepare=0;
+			start.setText("开始游戏");
+			start.setEnabled(true);
+			remake.setEnabled(false);
+			lose.setEnabled(false);
+			quit.setEnabled(true);
+			contre.setChickeAble(false);
+			player.setState(0);
+			player.initPlayerChessCoord();		
+			repaint();
+			
+			JOptionPane.showMessageDialog(this, "很遗憾您输了！");
+			
+		} else if (e.getSource() == quit) {	//退出房间	9:role
 			System.out.println("返回");
-		} else if (e.getSource() == send) {
-			if (isServer != null) {
+			int role=player.getRole();
+			String message="9:"+role;
+			this.dispose();	//关闭窗口
+			clinet.sendMessage(message);
+		} else if (e.getSource() == send) {	//发送信息
+			if (!"等待玩家加入".equals(nameClinet.getText())) {
 				String message = input.getText();
+				String name="";
 				if (!message.equals("")) {
-					message ="1:"+message;
-					showMessage.append(message+"\n");
-					input.setText("");
-					if (isServer) {
-						//server.sendMessage(message);
-					} else {
-						clinet.sendMessage(message);
+					if(player.getRole()==1) {
+						name =nameServer.getText();
+					}else {
+						name =nameClinet.getText();
 					}
+					showMessage.append(new Date()+"  "+name+" 说:\n"+message+"\n");
+					message="1:"+name+":"+message;
+					input.setText("");
+					clinet.sendMessage(message);
 				}
 			}
 		}
@@ -309,53 +366,49 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 						}
 					}
 				}
+				//判断点击地方是否有棋子
 				if (player.getPlayerChessCoord()[px][py] == Chess.BLANK) {
 					player.setPlayerChessCoord(px, py,player.getRole());
 					repaint();
 					player.setState(0);
-					if(isServer) {
+					if(player.getRole()==1) {
 						state2.setText("状态:等待...");
 						state1.setText("状态:下棋...");
 					}else {
 						state1.setText("状态:等待...");
 						state2.setText("状态:下棋...");
 					}
-					contre.setChickeAble(false);
-					String message="0:"+px+":"+py;
-					if(player.getRole()==1) {
-						//server.sendMessage(message);
-					}else {
-						clinet.sendMessage(message);
-					}
-					
 					time.interrupt();//结束倒计时
+					
+					String message="0:"+px+":"+py;
+					clinet.sendMessage(message);	//发送信息到服务器
 					
 					//判断是否结束游戏
 					int win=Judge.whowin(px, py, player.getPlayerChessCoord(), player.getRole());
 					String winMessage="";
 					if(win==player.getRole()) {
 						winMessage="恭喜您获得胜利!";
-						if(player.getRole()==1) {
-							//server.sendMessage("2:"+winMessage);
-							//改变状态
-							player.setState(1);
-							MainPage.contre.setChickeAble(true);
-							MainPage.time=new TimeThread(MainPage.countDown);
-							MainPage.state1.setText("状态:等待...");
-							MainPage.state2.setText("状态:下棋...");
-							JOptionPane.showMessageDialog(this, winMessage);
-							MainPage.time.start();
-						}else {
-							clinet.sendMessage("2:"+winMessage);
-							//改变状态
-							player.setState(0);
-							MainPage.contre.setChickeAble(false);
-							MainPage.state1.setText("状态:等待...");
-							MainPage.state2.setText("状态:下棋...");
-							JOptionPane.showMessageDialog(this, winMessage);
-						}
-						player.initPlayerChessCoord();
+						JOptionPane.showMessageDialog(this, winMessage);
+						prepare=0;
+						start.setText("开始游戏");
+						start.setEnabled(true);
+						remake.setEnabled(false);
+						lose.setEnabled(false);
+						quit.setEnabled(true);
+						contre.setChickeAble(false);
+						player.setState(0);
+						player.initPlayerChessCoord();		
 						repaint();
+					}else {
+						contre.setChickeAble(false);
+						GameHall.mainPage.remake.setEnabled(false);
+						GameHall.mainPage.lose.setEnabled(false);
+						
+						//记录下棋地方
+						List<Integer> list=new ArrayList<>();
+						list.add(px);
+						list.add(py);
+						player.getRecord().push(list);
 					}
 				}
 			}
