@@ -92,9 +92,9 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 		
 	}
 
-	public static void main(String[] args) {
-		new MainPage("1","1",null);
-	}
+//	public static void main(String[] args) {
+//		new MainPage("1","1",null);
+//	}
 
 	public void init() {
 		this.setTitle("网络五子棋");
@@ -131,8 +131,10 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 		left.setLayout(fl);
 		left.setSize(230, 800);
 		left.setLocation(0, 0);
-		left.setBackground(Color.gray);
-
+		Color c = new Color(192, 192, 192);
+		left.setBackground(c);
+		left.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));//设置边框
+		
 		ImageIcon headImage1 = new ImageIcon("src/image/head1.jpg");
 		headImage1.setImage(headImage1.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
 		JLabel head1 = new JLabel(headImage1);
@@ -145,25 +147,25 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 		head2.setBorder(BorderFactory.createLineBorder(Color.black));
 		//名字标签属性
 		nameServer.setPreferredSize(new Dimension(200, 50));// 设置按钮大小
-		nameServer.setBorder(BorderFactory.createLineBorder(Color.red));
+		nameServer.setBorder(BorderFactory.createLineBorder(Color.black));
 		
 		nameClinet.setPreferredSize(new Dimension(200, 50));// 设置按钮大小
-		nameClinet.setBorder(BorderFactory.createLineBorder(Color.red));
+		nameClinet.setBorder(BorderFactory.createLineBorder(Color.black));
 		JLabel win1 = new JLabel("胜率:0%", JLabel.CENTER);
 		win1.setPreferredSize(new Dimension(200, 50));// 设置按钮大小
-		win1.setBorder(BorderFactory.createLineBorder(Color.red));
+		win1.setBorder(BorderFactory.createLineBorder(Color.black));
 		JLabel win2 = new JLabel("胜率:0%", JLabel.CENTER);
 		win2.setPreferredSize(new Dimension(200, 50));// 设置按钮大小
-		win2.setBorder(BorderFactory.createLineBorder(Color.red));
+		win2.setBorder(BorderFactory.createLineBorder(Color.black));
 		state1 = new JLabel("状态:等待...", JLabel.CENTER);
 		state1.setPreferredSize(new Dimension(200, 50));// 设置按钮大小
-		state1.setBorder(BorderFactory.createLineBorder(Color.red));
+		state1.setBorder(BorderFactory.createLineBorder(Color.black));
 		state2 = new JLabel("状态:下棋...", JLabel.CENTER);
 		state2.setPreferredSize(new Dimension(200, 50));// 设置按钮大小
-		state2.setBorder(BorderFactory.createLineBorder(Color.red));
+		state2.setBorder(BorderFactory.createLineBorder(Color.black));
 		countDown = new JLabel("倒计时:30s", JLabel.CENTER);
 		countDown.setPreferredSize(new Dimension(200, 50));// 设置按钮大小
-		countDown.setBorder(BorderFactory.createLineBorder(Color.red));
+		countDown.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		left.add(head1);
 		left.add(nameClinet);
@@ -198,7 +200,10 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 		right.setLayout(fl);
 		right.setSize(330, 800);
 		right.setLocation(1070, 0);
-		right.setBackground(Color.blue);		
+		Color c = new Color(65, 105, 225);
+		right.setBackground(c);	
+		right.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));//设置边框
+		
 		start = new JButton("开始游戏");
 		start.setPreferredSize(new Dimension(200, 50));// 设置按钮大小
 		start.setFont(new Font("宋体", Font.BOLD, 20));

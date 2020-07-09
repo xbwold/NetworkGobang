@@ -37,6 +37,7 @@ public class GameHall extends JFrame implements ActionListener {
 	public static Object[][] object = null;
 
 	public static MainPage mainPage;
+
 	public GameHall(String name, String ip) {
 		this.data = new ArrayList<List<String>>();
 		this.name = name;
@@ -44,7 +45,7 @@ public class GameHall extends JFrame implements ActionListener {
 		init();
 		clinet = new Clinet(ip); // 开启客户端线程
 		clinet.start();
-		new JoinThread(this.listRoom,this.data).start();	//十秒房间刷新机制
+		new JoinThread(this.listRoom, this.data).start(); // 十秒房间刷新机制
 	}
 
 	public void init() {
@@ -73,8 +74,9 @@ public class GameHall extends JFrame implements ActionListener {
 		left = new JPanel();
 		left.setLayout(null);
 		left.setBounds(0, 0, 600, 600);
-		left.setBackground(Color.gray);
-		left.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		Color c = new Color(192, 192, 192);
+		left.setBackground(c);
+		left.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // 设置边框
 
 		userName = new JLabel("用户名:" + name, JLabel.CENTER);
 		userName.setBounds(10, 5, 150, 20);
@@ -146,8 +148,9 @@ public class GameHall extends JFrame implements ActionListener {
 		right = new JPanel();
 		right.setLayout(null);
 		right.setBounds(600, 0, 300, 600);
-		right.setBackground(Color.blue);
-		right.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+		Color c = new Color(65, 105, 225);
+		right.setBackground(c);
+		//right.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
 		show = new JTextArea();
 
@@ -176,9 +179,9 @@ public class GameHall extends JFrame implements ActionListener {
 	 */
 	public void getTableData() {
 		int lenghtI = data.size();
-		if(lenghtI==0) {
+		if (lenghtI == 0) {
 			object = null;
-		}else {
+		} else {
 			int lenghtJ = data.get(0).size();
 			object = new Object[lenghtI][lenghtJ];
 			for (int i = 0; i < lenghtI; i++) {
@@ -190,9 +193,9 @@ public class GameHall extends JFrame implements ActionListener {
 		}
 	}
 
-	public static void main(String[] args) {
-		new GameHall("wold", "127.0.0.1");
-	}
+//	public static void main(String[] args) {
+//		new GameHall("wold", "127.0.0.1");
+//	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -215,7 +218,7 @@ public class GameHall extends JFrame implements ActionListener {
 			getTableData();
 			DefaultTableModel model = new DefaultTableModel(this.object, columnName);
 			listRoom.setModel(model);
-			mainPage=new MainPage(this.name,"等待玩家加入",clinet);//MainPage gameStart = 
+			mainPage = new MainPage(this.name, "等待玩家加入", clinet);// MainPage gameStart =
 			this.clinet.sendMessage("4:" + number + ":" + this.name + ":" + "VS:" + "等待玩家加入");
 		} else if (e.getSource() == refresh) { // 刷新房间列表
 
@@ -239,7 +242,7 @@ public class GameHall extends JFrame implements ActionListener {
 					listRoom.setModel(model);
 					create.setEnabled(false);
 					inside.setEnabled(false);
-					mainPage=new MainPage((String)object[row][1],this.name,clinet);
+					mainPage = new MainPage((String) object[row][1], this.name, clinet);
 				} else {
 					JOptionPane.showMessageDialog(this, "房间已满", "提示", JOptionPane.WARNING_MESSAGE);
 				}
