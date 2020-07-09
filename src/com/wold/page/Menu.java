@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class Menu extends JFrame implements MouseListener{
+	public static Menu m;
 	private ImageIcon mune;
 	private JLabel mJLabel;//用于显示图片
 	private int x;
@@ -35,10 +36,6 @@ public class Menu extends JFrame implements MouseListener{
 		
 		this.add(mJLabel);
 		
-//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // 获取屏幕大小
-//		int centerX = screenSize.width / 2;
-//		int centerY = screenSize.height / 2;
-//		this.setLocation(centerX - 420 / 2, centerY - 625 / 2);// 屏幕居中显示
 		this.setLocationRelativeTo(null);	//位于屏幕居中
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,7 +46,7 @@ public class Menu extends JFrame implements MouseListener{
 		
 	}
 	public static void main(String[] args) {
-		Menu m=new Menu();
+		m=new Menu();
 	}
 
 	@Override
@@ -59,7 +56,7 @@ public class Menu extends JFrame implements MouseListener{
 		if(x>120&&x<300&&y>220&&y<470) {
 			if(y>220&&y<280) {
 				String ip=JOptionPane.showInputDialog(null,"请输入服务器ip","连接服务器",JOptionPane.PLAIN_MESSAGE);
-				Pattern pattern=Pattern.compile("((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2}).((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2}).((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2}).((2(5[0-5]|[0-4]\\d))|[0-1]?\\d{1,2})");
+				Pattern pattern=Pattern.compile("^(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}$");	//用于判断ip格式
 				Matcher mather=pattern.matcher(ip);
 				if(!ip.equals("")&&mather.find()) {
 					new Login("登录","登录","注册",ip);

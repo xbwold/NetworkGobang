@@ -5,10 +5,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.wold.net.Clinet;
+import com.wold.pojo.User;
+import com.wold.service.UserService;
 
 public class Login extends JFrame implements ActionListener {
-
+	private UserService userService;
+	
 	private JFrame frame;
 	private JPanel panel;
 	private JLabel userLabel;
@@ -20,6 +26,10 @@ public class Login extends JFrame implements ActionListener {
 	private String ip;
 
 	public Login(String title, String bStr1, String bStr2,String ip) {
+		
+		ApplicationContext applicationContext= new ClassPathXmlApplicationContext("classpath:applicationContext.xml");
+		userService=applicationContext.getBean(UserService.class);
+		
 		this.ip=ip;
 		frame = new JFrame(title);
 		panel = new JPanel();
@@ -73,9 +83,9 @@ public class Login extends JFrame implements ActionListener {
 		panel.add(registerButton);
 	}
 
-	public static void main(String[] args) {
-		new Login("登录","登录","注册","127.0.0.1");
-	}
+//	public static void main(String[] args) {
+//		new Login("登录","登录","注册","127.0.0.1");
+//	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -84,18 +94,36 @@ public class Login extends JFrame implements ActionListener {
 				if(userText.getText().equals("")) {
 					userText.setText("用户名不能为空!");
 				}else {
-					if(passText.getPassword().equals("")) {
+					User user=new User();
+					user.setName(userText.getText());
+					user.setPassword(new String(passText.getPassword()));
+					User temp=userService.getUserByNameAndPwd(user);
+					if(temp==null) {
 						JOptionPane.showMessageDialog(null,"账户密码错误!","错误",JOptionPane.ERROR_MESSAGE);
 					}else {
-						System.out.println(ip);
 						new GameHall(userText.getText(),ip);
 						frame.dispose();
-						
+						Menu.m.dispose();
 					}
 				}
 				
 			} else if (loginButton.getText().equals("注册")) {
-				JOptionPane.showMessageDialog(null,"功能待开发","警告",JOptionPane.WARNING_MESSAGE);
+				String name=userText.getText();
+				String pwd=new String(passText.getPassword());
+				if(name.equals("")||pwd.equals("")) {
+					JOptionPane.showMessageDialog(null,"账户密码不能为空","警告",JOptionPane.WARNING_MESSAGE);
+				}else {
+					User user=new User();
+					user.setName(name);
+					user.setPassword(pwd);
+					boolean b=userService.saveUser(user);
+					if(b) {
+						JOptionPane.showMessageDialog(null,"注册成功","成功",JOptionPane.WARNING_MESSAGE);
+						frame.dispose();
+					}else {
+						JOptionPane.showMessageDialog(null,"用户名已存在","警告",JOptionPane.WARNING_MESSAGE);
+					}
+				}
 			}
 		}
 		if (e.getSource() == registerButton) {

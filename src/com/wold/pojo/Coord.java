@@ -1,5 +1,10 @@
 package com.wold.pojo;
 
+/**
+ * 暂时没有用到
+ * @author WOLD
+ *
+ */
 public class Coord {
 	private int x;
 	private int y;
