@@ -5,9 +5,9 @@ import java.util.List;
 
 public class Player {
 	private String name;
-	public static int[][] playerChessCoord = new int[16][16];	//ÆåÅÌ
-	private int role;	//½ÇÉ«Æå×ÓÑÕÉ«,1ºÚ2°×
-	private int state;	//Íæ¼Ò×´Ì¬,0µÈ´ı1ÏÂÆå
+	public static int[][] playerChessCoord = new int[16][16];	//æ£‹ç›˜
+	private int role;	//è§’è‰²æ£‹å­é¢œè‰²ï¼Œ1é»‘2ç™½
+	private int state;	//ç©å®¶çŠ¶æ€ï¼Œ0ç­‰å¾…1ä¸‹æ£‹
 	private RecordStack<List<Integer>> record;
 
 	public RecordStack<List<Integer>> getRecord() {
@@ -30,10 +30,10 @@ public class Player {
 		return playerChessCoord;
 	}
 	/**
-	 * ĞŞ¸ÄÆåÅÌÉÏÆå×Ó
+	 * ä¿®æ”¹æ£‹ç›˜ä¸Šæ£‹å­
 	 * @param x 
 	 * @param y
-	 * @param role ºÚ°×Æå
+	 * @param role é»‘ç™½æ£‹
 	 */
 	public void setPlayerChessCoord(int x,int y,int role) {
 		this.playerChessCoord[x][y]=role;
@@ -61,7 +61,7 @@ public class Player {
 		 initPlayerChessCoord();
 	 }
 	 /**
-	  * ³õÊ¼»¯ÆåÅÌÊı×é
+	  *åˆå§‹åŒ–æ£‹ç›˜
 	  */
 	 public void initPlayerChessCoord() {
 		 for(int i=0;i<16;i++) {

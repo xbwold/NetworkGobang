@@ -17,9 +17,9 @@ public class ChatThread extends Thread {
 	private List<Socket> socketList;
 	private List<PrintWriter> list;
 	private List<String> homeList;
-	private List<List<Socket>> home;		//·¿¼äÁĞ±í
-	private List<Socket> createHome=null;	//µ±Ç°·¿¼äµÄsocket
-	//private int number;	//·¿¼äºÅ
+	private List<List<Socket>> home;		//æˆ¿é—´åˆ—è¡¨
+	private List<Socket> createHome=null;	//å½“å‰æˆ¿é—´çš„socket
+	
 
 	public ChatThread(Socket client, List<Socket> socketList, List<PrintWriter> list, List<String> homeLis,
 			List<List<Socket>> home) {
@@ -38,29 +38,26 @@ public class ChatThread extends Thread {
 				String data = br.readLine();
 				String dataArr[] = data.split(":");
 				System.out.println(data);
-				if (dataArr[0].equals("0")||dataArr[0].equals("7")||dataArr[0].equals("8")) {	//0Æå×ÓĞÅÏ¢¡¢7»ÚÆåÉêÇë¡¢8¶ÔÊÖÈÏÊäÖ±½Ó×ª·¢
+				if (dataArr[0].equals("0")||dataArr[0].equals("7")||dataArr[0].equals("8")) {	//0æ£‹å­ä¿¡æ¯ã€7æ‚”æ£‹ä¿¡æ¯ã€8å¯¹æ‰‹äººæ•°ä¿¡æ¯ ç›´æ¥è½¬å‘
 					int id=getSocketId(client);
 					sendMessageById(id, data);
-					System.out.println("ĞÅÏ¢×ª·¢id"+id+"  "+data);
-
-				} else if (dataArr[0].equals("1")) {	//·¿¼äÄÚĞÅÏ¢
+				} else if (dataArr[0].equals("1")) {	//æˆ¿é—´å†…èŠå¤©ä¿¡æ¯
 					int id=getSocketId(client);
 					sendMessageById(id,data);
-				} else if (dataArr[0].equals("2")) {	//½ÓÊÕ×¼±¸ĞÅÏ¢
+				} else if (dataArr[0].equals("2")) {	//æ¥æ”¶å‡†å¤‡ä¿¡æ¯
 					int id=getSocketId(client);
 					sendMessageById(id, data);
-				} else if (dataArr[0].equals("3")) {// ½ÓÊÜÓÎÏ·´óÌüÏûÏ¢
+				} else if (dataArr[0].equals("3")) {// æ¸¸æˆå¤§å…èŠå¤©ä¿¡æ¯
 					System.out.println(data);
 					sendMessageAllUser(data);
-				} else if (dataArr[0].equals("4")) { // ´´½¨·¿¼ä
+				} else if (dataArr[0].equals("4")) { // åˆ›å»ºæˆ¿é—´ä¿¡æ¯
 					homeList.add(data);
 					createHome = new ArrayList<>();
 					createHome.add(client);
 					createHome.add(null);
 					this.home.add(createHome);
-					//this.number=home.size();
 					sendMessageOtherUser(data);
-				} else if (dataArr[0].equals("5")) { // ½øÈëÓÎÏ·´óÌüÊ±»ñÈ¡ÒÑ´æÔÚµÄ·¿¼ä
+				} else if (dataArr[0].equals("5")) { //è¿›å…¥æ¸¸æˆå¤§å…æ—¶è·å–å·²å­˜åœ¨çš„æˆ¿é—´
 					for (int i = 0; i < socketList.size(); i++) {
 						Socket socket = socketList.get(i);
 						if (socket == this.client) {
@@ -73,7 +70,7 @@ public class ChatThread extends Thread {
 						}
 					}
 
-				} else if (dataArr[0].equals("6")) { // ¼ÓÈë·¿¼ä				
+				} else if (dataArr[0].equals("6")) { // åŠ å…¥æˆ¿é—´			
 					String str = homeList.get(Integer.valueOf(dataArr[1]));
 					String temp = "";
 					String strArr[] = str.split(":");
@@ -86,17 +83,16 @@ public class ChatThread extends Thread {
 					sendMessageOtherUser(data);
 					createHome=home.get(Integer.valueOf(dataArr[1]));
 					createHome.set(1, this.client);
-					home.set(Integer.valueOf(dataArr[1]), createHome);
-					//this.number=Integer.valueOf(dataArr[1])+1;
+					home.set(Integer.valueOf(dataArr[1]), createHome);				
 					int id=getSocketId(client);
 					String message="5:"+dataArr[2];
 					sendMessageById(id, message);
-				}else if(dataArr[0].equals("9")) {	//ÓĞÈËÍË³ö·¿¼ä
+				}else if(dataArr[0].equals("9")) {	//æœ‰äººé€€å‡ºæˆ¿é—´
 					int number=home.indexOf(createHome);
 					System.out.println("----------------------");
 					System.out.println(number);
-					if(dataArr[1].equals("1")) { //·¿Ö÷ÍË³ö£¬½âÉ¢·¿¼ä
-						for(int i=0;i<2;i++) {	//ÓÃÓÚ¿ªÆôÓÎÏ·ÓÎÏ·´óÌüµã»÷ÊÂ¼ş
+					if(dataArr[1].equals("1")) { //æˆ¿ä¸»é€€å‡ºï¼Œè§£æ•£æˆ¿é—´
+						for(int i=0;i<2;i++) {	//ç”¨äºå¼€å¯æ¸¸æˆå¤§å…ç‚¹å‡»äº‹ä»¶
 							String message="9:0";
 							if(i==0) {
 								message+=":0";
@@ -118,9 +114,9 @@ public class ChatThread extends Thread {
 						home.remove(number);
 						homeList.remove(number);
 						
-					}else { //Íæ¼ÒÍË³ö£¬µÈ´ıÍæ¼Ò¼ÓÈë
+					}else { //ç©å®¶é€€å‡ºï¼Œç­‰å¾…ç©å®¶åŠ å…¥
 						
-						//¿ªÆôÓÎÏ·´óÌü°´Å¥µã»÷ÊÂ¼ş
+						//å¼€å¯æ¸¸æˆå¤§å…æŒ‰é’®ç‚¹å‡»äº‹ä»¶
 						String message="9:0:0";
 						int id=getSocketId(createHome.get(0));
 						sendMessageById(id, message);
@@ -133,22 +129,20 @@ public class ChatThread extends Thread {
 							String string = strArr[i];
 							temp += string + ":";
 						}
-						temp += "µÈ´ıÍæ¼Ò¼ÓÈë";				
+						temp += "ç­‰å¾…ç©å®¶åŠ å…¥";				
 						homeList.set(number, temp);
 					}
-					//Í¨ÖªËùÓĞÍæ¼Ò
+					//Í¨é€šçŸ¥æ‰€æœ‰ç©å®¶
 					data+=":"+number;
 					sendMessageAllUser(data);
 				}
 			}
 
 		} catch (IOException e) {
-			//e.printStackTrace();
-			//ÓÃ»§ÍË³öÓÎÏ·´óÌü
-			System.out.println("ÓÃ»§¹Ø±ÕÓÎÏ·´óÌü");
+			//ç”¨æˆ·é€€å‡ºæ¸¸æˆå¤§å…
+			System.out.println("ç”¨æˆ·å…³é—­æ¸¸æˆå¤§å…");
 			int i=socketList.indexOf(client);
 			System.out.println("==================");
-			System.out.println(i);
 			socketList.remove(i);	
 			list.remove(i);
 		}
@@ -156,7 +150,7 @@ public class ChatThread extends Thread {
 
 	public void sendMessageAllUser(String message) {
 		for (PrintWriter bw : list) {
-			System.out.println("·¢³öÈ¥Ò»¸ö");
+			System.out.println("å‘å‡ºå»ä¸€ä¸ª");
 			bw.println(message);
 		}
 	}
@@ -166,20 +160,20 @@ public class ChatThread extends Thread {
 			Socket socket = socketList.get(i);
 			if (socket != client) {
 				PrintWriter bw = list.get(i);
-				System.out.println("·¢³öÈ¥Ò»¸ö:   "+message);
+				System.out.println("å‘å‡ºå»ä¸€ä¸ª:   "+message);
 				bw.println(message);
 			}
 		}
 	}
 	
 	public void sendMessageById(int id,String message) {
-		System.out.println("Í¨¹ıid:"+id+"·¢ËÍÁË   "+message);
+		System.out.println("é€šè¿‡id"+id+"å‘é€äº†:   "+message);
 		PrintWriter bw = this.list.get(id);
 		bw.println(message);
 	}
 	
 	/**
-	 * »ñÈ¡socket¶ÔÊÖµÄid
+	 * è·å–socketå¯¹æ‰‹çš„id
 	 * @param socket
 	 * @return
 	 */

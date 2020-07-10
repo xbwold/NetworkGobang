@@ -13,6 +13,11 @@ import com.wold.pojo.Board;
 import com.wold.pojo.Chess;
 import com.wold.pojo.Player;
 
+/**
+ * 棋盘下棋操作
+ * @author WOLD
+ *
+ */
 public class ChessBoard extends JPanel {
 
 	private Image checkerBoard;
@@ -109,9 +114,9 @@ public class ChessBoard extends JPanel {
 	}
 
 	public void loadImages() {
-		checkerBoard = Toolkit.getDefaultToolkit().getImage("src/image/chessBoard.png");
-		whiteChess = Toolkit.getDefaultToolkit().getImage("src/image/white.png");
-		blackChess = Toolkit.getDefaultToolkit().getImage("src/image/black.png");
+		checkerBoard = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/image/chessBoard.png"));
+		whiteChess = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/image/white.png"));
+		blackChess = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/image/black.png"));
 	}
 
 }

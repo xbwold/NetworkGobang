@@ -2,7 +2,7 @@ package com.wold.pojo;
 
 import java.util.LinkedList;
 /**
- * ÏÂÆå¼ÇÂ¼
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Â¼
  * @author WOLD
  *
  * @param <T>
@@ -10,35 +10,35 @@ import java.util.LinkedList;
 public class RecordStack <T>{
 	private LinkedList<T> ll=new LinkedList<>();
 	
-	 //ÈëÕ»
+	 //å…¥æ ˆ
     public void push(T t) {
         ll.addFirst(t);
     }
  
-    //³öÕ»
+    //å‡ºæ ˆ
     public T pop() {
         return ll.removeFirst();
     }
  
-    //Õ»¶¥ÔªËØ
+    //æ ˆé¡¶å…ƒç´ 
     public T peek() {
         T t = null;
-        //Ö±½ÓÈ¡ÔªËØ»á±¨Òì³££¬ĞèÒªÏÈÅĞ¶ÏÊÇ·ñÎª¿Õ
+        //Ö±åˆ¤æ–­éç©º
         if (!ll.isEmpty())
             t = ll.getFirst();
         return t;
     }
  
-    //Õ»¿Õ
+    //æ ˆç©º
     public boolean isEmpty() {
         return ll.isEmpty();
     }
     
-    //Çå³ıÕ»
+    //æ¸…æ¥šæ ˆ
     public void clear() {
     	ll.clear();
     }
-    //»ñÈ¡Õ»´óĞ¡
+    //è·å–æ ˆå¤§å°
     public int getSize() {
     	return ll.size();
     }

@@ -7,6 +7,7 @@ import javax.swing.*;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import com.wold.net.Clinet;
 import com.wold.pojo.User;
@@ -33,73 +34,63 @@ public class Login extends JFrame implements ActionListener {
 		this.ip=ip;
 		frame = new JFrame(title);
 		panel = new JPanel();
-		userLabel = new JLabel("ÓÃ»§Ãû:"); // ´´½¨UserJLabel
-		userText = new JTextField(); // »ñÈ¡µÇÂ¼Ãû
-		passLabel = new JLabel("ÃÜÂë:"); // ´´½¨PassJLabel
-		passText = new JPasswordField(20); // ÃÜÂë¿òÒş²Ø
-		loginButton = new JButton(bStr1); // ´´½¨µÇÂ¼°´Å¥
-		registerButton = new JButton(bStr2); // ´´½¨×¢²á°´Å¥
+		userLabel = new JLabel("ç”¨æˆ·å:"); // åˆ›å»ºUserJLable
+		userText = new JTextField(); // è·å–ç™»å½•å
+		passLabel = new JLabel("å¯†ç :"); // åˆ›å»ºPassJLable
+		passText = new JPasswordField(20); //å¯†ç æ¡†éšè—
+		loginButton = new JButton(bStr1); // åˆ›å»ºç™»å½•æŒ‰é’®
+		registerButton = new JButton(bStr2); // åˆ›å»ºæ³¨å†ŒæŒ‰é’®
 		
 		
 		loginButton.addActionListener(this);
 		registerButton.addActionListener(this);
 		
-		// ÉèÖÃ´°ÌåµÄÎ»ÖÃ¼°´óĞ¡
+		// è®¾ç½®çª—ä½“ä½ç½®åŠå¤§å°
 		frame.setSize(300, 200);
-		frame.setLocationRelativeTo(null); // ÔÚÆÁÄ»ÖĞ¾ÓÖĞÏÔÊ¾
-		frame.add(panel); // Ìí¼ÓÃæ°å
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // ÉèÖÃXºÅºó¹Ø±Õ
-		placeComponents(panel); // Íù´°ÌåÀï·ÅÆäËû¿Ø¼ş
-		frame.setVisible(true); // ÉèÖÃ´°Ìå¿É¼û
+		frame.setLocationRelativeTo(null); // å±å¹•å±…ä¸­
+		frame.add(panel); // æ·»åŠ é¢æ¿
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // è®¾ç½®ç‚¹å‡»å…³é—­æŒ‰é’®
+		placeComponents(panel); // å¾€çª—ä½“é‡Œæ”¾å…¶ä»–ç©ºé—´
+		frame.setVisible(true); // è®¾ç½®çª—ä½“å¯è§
 	}
 
-	/**
-	 * Ãæ°å¾ßÌå²¼¾Ö
-	 * 
-	 * @param panel
-	 */
+	
 	private void placeComponents(JPanel panel) {
 
-		panel.setLayout(null); // ÉèÖÃ²¼¾ÖÎª null
+		panel.setLayout(null); //è®¾ç½®å¸ƒå±€ä¸ºnull
 
-		// ´´½¨ UserJLabel
+		
 		userLabel.setBounds(30, 30, 80, 25);
 		panel.add(userLabel);
-		// ´´½¨ÎÄ±¾ÓòÓÃÓÚÓÃ»§ÊäÈë
+		
 		userText.setBounds(105, 30, 165, 25);
 		panel.add(userText);
 
-		// ´´½¨PassJLabel
 		passLabel.setBounds(30, 60, 80, 25);
 		panel.add(passLabel);
-		// ÃÜÂëÊäÈë¿ò Òş²Ø
+		
 		passText.setBounds(105, 60, 165, 25);
 		panel.add(passText);
 
-		// ´´½¨µÇÂ¼°´Å¥
 		loginButton.setBounds(25, 100, 80, 25);
 		panel.add(loginButton);
 		registerButton.setBounds(190, 100, 80, 25);
 		panel.add(registerButton);
 	}
 
-//	public static void main(String[] args) {
-//		new Login("µÇÂ¼","µÇÂ¼","×¢²á","127.0.0.1");
-//	}
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == loginButton) {
-			if (loginButton.getText().equals("µÇÂ¼")) {
+			if (loginButton.getText().equals("ç™»å½•")) {
 				if(userText.getText().equals("")) {
-					userText.setText("ÓÃ»§Ãû²»ÄÜÎª¿Õ!");
+					userText.setText("ç”¨æˆ·åä¸èƒ½ä¸ºç©º!");
 				}else {
 					User user=new User();
 					user.setName(userText.getText());
 					user.setPassword(new String(passText.getPassword()));
 					User temp=userService.getUserByNameAndPwd(user);
 					if(temp==null) {
-						JOptionPane.showMessageDialog(null,"ÕË»§ÃÜÂë´íÎó!","´íÎó",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null,"è´¦æˆ·å¯†ç é”™è¯¯!","é”™è¯¯",JOptionPane.ERROR_MESSAGE);
 					}else {
 						new GameHall(userText.getText(),ip);
 						frame.dispose();
@@ -107,29 +98,29 @@ public class Login extends JFrame implements ActionListener {
 					}
 				}
 				
-			} else if (loginButton.getText().equals("×¢²á")) {
+			} else if (loginButton.getText().equals("æ³¨å†Œ")) {
 				String name=userText.getText();
 				String pwd=new String(passText.getPassword());
 				if(name.equals("")||pwd.equals("")) {
-					JOptionPane.showMessageDialog(null,"ÕË»§ÃÜÂë²»ÄÜÎª¿Õ","¾¯¸æ",JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null,"è´¦æˆ·å¯†ç ä¸èƒ½ä¸ºç©º","è­¦å‘Š",JOptionPane.WARNING_MESSAGE);
 				}else {
 					User user=new User();
 					user.setName(name);
 					user.setPassword(pwd);
 					boolean b=userService.saveUser(user);
 					if(b) {
-						JOptionPane.showMessageDialog(null,"×¢²á³É¹¦","³É¹¦",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null,"æ³¨å†ŒæˆåŠŸ","æˆåŠŸ",JOptionPane.WARNING_MESSAGE);
 						frame.dispose();
 					}else {
-						JOptionPane.showMessageDialog(null,"ÓÃ»§ÃûÒÑ´æÔÚ","¾¯¸æ",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null,"ç”¨æˆ·åå·²å­˜åœ¨","è­¦å‘Š",JOptionPane.WARNING_MESSAGE);
 					}
 				}
 			}
 		}
 		if (e.getSource() == registerButton) {
-			if (registerButton.getText().equals("×¢²á")) {
-				new Login("×¢²á", "×¢²á", "·µ»Ø",ip);
-			} else if (registerButton.getText().equals("·µ»Ø")) {
+			if (registerButton.getText().equals("æ³¨å†Œ")) {
+				new Login("æ³¨å†Œ", "æ³¨å†Œ", "è¿”å›",ip);
+			} else if (registerButton.getText().equals("è¿”å›")) {
 				frame.dispose();
 			}
 		}

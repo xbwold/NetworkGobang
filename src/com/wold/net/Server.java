@@ -24,15 +24,12 @@ public class Server extends Thread {
 	private ServerSocket server;
 	private List<Socket> listClientSocket;
 	private List<PrintWriter> listClientPrintWriter;
-	private List<String> homeList=Collections.synchronizedList(new ArrayList<>());; //´´½¨·¿¼äµÄËùÓÃĞÅÏ¢
+	private List<String> homeList=Collections.synchronizedList(new ArrayList<>());; //åˆ›å»ºæˆ¿é—´çš„æ‰€ç”¨ä¿¡æ¯
 	private List<List<Socket>> home=new ArrayList<>();
 	
 	public Server() {
 		listClientSocket = Collections.synchronizedList(new ArrayList<>());
 		listClientPrintWriter = Collections.synchronizedList(new ArrayList<>());
-//		this.part=part;
-//		this.showMessage=showMessage;
-//		this.player=player;
 	}
 
 	public static void main(String[] args) {
@@ -43,11 +40,11 @@ public class Server extends Thread {
 	public void run() {
 		try {
 			server = new ServerSocket(9999);
-			System.out.println("·şÎñÆ÷¿ªÆô");
+			System.out.println("æœåŠ¡å™¨å¼€å¯");
 
 			while (true) {
 				Socket scoktClient = server.accept();
-				System.out.println(scoktClient.getInetAddress().getHostAddress() + "¼ÓÈë·şÎñÆ÷");
+				System.out.println(scoktClient.getInetAddress().getHostAddress() + "åŠ å…¥æœåŠ¡å™¨");
 				listClientSocket.add(scoktClient);
 				PrintWriter bw = new PrintWriter(scoktClient.getOutputStream(), true);
 				listClientPrintWriter.add(bw);

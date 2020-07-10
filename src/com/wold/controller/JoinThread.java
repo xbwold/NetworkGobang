@@ -6,7 +6,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class JoinThread extends Thread {
-	private final static String[] columnName = { "·¿¼äºÅ", "·¿Ö÷Ãû³Æ", "-----", "Íæ¼ÒÃû³Æ" };
+	private final static String[] columnName = { "æˆ¿é—´å·", "æˆ¿ä¸»åç§°", "-----", "ç©å®¶åç§°" };
 	private JTable table;
 	private List<List<String>> data;
 	private Object[][] object=null;
@@ -18,7 +18,7 @@ public class JoinThread extends Thread {
 	public void run() {
 		while(true){
 			try {
-				this.sleep(10000);	//10Ãë¸üĞÂÒ»´Î
+				this.sleep(10000);	//10ç§’æ›´æ–°ä¸€æ¬¡
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

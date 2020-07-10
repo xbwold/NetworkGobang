@@ -32,7 +32,7 @@ public class GameHall extends JFrame implements ActionListener {
 	private Clinet clinet;
 
 	private JTable listRoom;
-	private final static String[] columnName = { "·¿¼äºÅ", "·¿Ö÷Ãû³Æ", "-----", "Íæ¼ÒÃû³Æ" };
+	private final static String[] columnName = { "æˆ¿é—´å·", "æˆ¿ä¸»åç§°", "-----", "ç©å®¶åç§°" };
 	public static List<List<String>> data = null;
 	public static Object[][] object = null;
 
@@ -43,15 +43,15 @@ public class GameHall extends JFrame implements ActionListener {
 		this.name = name;
 		this.ip = ip;
 		init();
-		clinet = new Clinet(ip); // ¿ªÆô¿Í»§¶ËÏß³Ì
+		clinet = new Clinet(ip); // å¼€å¯å®¢æˆ·ç«¯çº¿ç¨‹
 		clinet.start();
-		new JoinThread(this.listRoom, this.data).start(); // Ê®Ãë·¿¼äË¢ĞÂ»úÖÆ
+		new JoinThread(this.listRoom, this.data).start(); // åç§’æˆ¿é—´åˆ·æ–°æœºåˆ¶
 	}
 
 	public void init() {
-		this.setTitle("ÓÎÏ·´óÌü");
-		this.setSize(900, 625); // ÉèÖÃ´°¿Ú´óĞ¡
-		this.setResizable(false);// ´°¿Ú´óĞ¡²»¿É±ä
+		this.setTitle("æ¸¸æˆå¤§å…");
+		this.setSize(900, 625); // è®¾ç½®çª—å£å¤§å°
+		this.setResizable(false);// çª—å£å¤§å°ä¸å¯å˜
 		this.setLayout(null);
 
 		initLeft();
@@ -65,7 +65,7 @@ public class GameHall extends JFrame implements ActionListener {
 		inside.addActionListener(this);
 		send.addActionListener(this);
 
-		this.setLocationRelativeTo(null); // Î»ÓÚÆÁÄ»¾ÓÖĞ
+		this.setLocationRelativeTo(null); // å±å¹•å±…ä¸­
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -76,9 +76,9 @@ public class GameHall extends JFrame implements ActionListener {
 		left.setBounds(0, 0, 600, 600);
 		Color c = new Color(192, 192, 192);
 		left.setBackground(c);
-		left.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // ÉèÖÃ±ß¿ò
+		left.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // è®¾ç½®è¾¹æ¡†
 
-		userName = new JLabel("ÓÃ»§Ãû:" + name, JLabel.CENTER);
+		userName = new JLabel("ç”¨æˆ·å:" + name, JLabel.CENTER);
 		userName.setBounds(10, 5, 150, 20);
 		userName.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
@@ -86,53 +86,38 @@ public class GameHall extends JFrame implements ActionListener {
 		sep1.setForeground(Color.BLACK);
 		sep1.setBounds(0, 30, 600, 1);
 
-		serverIP = new JLabel("·şÎñÆ÷IP:" + ip, JLabel.CENTER);
+		serverIP = new JLabel("æœåŠ¡å™¨IP:" + ip, JLabel.CENTER);
 		serverIP.setBounds(170, 5, 150, 20);
 		serverIP.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-		create = new JButton("´´½¨·¿¼ä");
+		create = new JButton("åˆ›å»ºæˆ¿é—´");
 		create.setBounds(150, 40, 100, 50);
 
-		refresh = new JButton("Ë¢ĞÂ·¿¼ä");
+		refresh = new JButton("åˆ·æ–°æˆ¿é—´");
 		refresh.setBounds(350, 40, 100, 50);
 
 		JSeparator sep2 = new JSeparator();
 		sep2.setForeground(Color.BLACK);
 		sep2.setBounds(0, 100, 600, 1);
 
-		inside = new JButton("¼ÓÈë·¿¼ä");
+		inside = new JButton("åŠ å…¥æˆ¿é—´");
 		inside.setBounds(250, 520, 100, 50);
 
 		DefaultTableModel model = new DefaultTableModel(this.object, columnName);
 		listRoom = new JTable(model) {
 			public boolean isCellEditable(int row, int column) {
-				return false;// ÉèÖÃ±í¸ñµ¥Ôª²»¿É±à¼­,·µ»Øtrue±íÊ¾ÄÜ±à¼­£¬false±íÊ¾²»ÄÜ±à¼­
+				return false;// è®¾ç½®è¡¨æ ¼å•å…ƒä¸å¯ç¼–è¾‘,è¿”å›trueè¡¨ç¤ºèƒ½ç¼–è¾‘ï¼Œfalseè¡¨ç¤ºä¸èƒ½ç¼–è¾‘
 			}
 		};
 
-		// ÉèÖÃÄÚÈİ¾ÓÖĞ
+		// è®¾ç½®å†…å®¹å±…ä¸­
 		DefaultTableCellRenderer r = new DefaultTableCellRenderer();
 		r.setHorizontalAlignment(JLabel.CENTER);
 		listRoom.setDefaultRenderer(Object.class, r);
 
-//		listRoom.setAutoResizeMode(JTable.AUTO_RESIZE_OFF); // ÉèÖÃÁĞ¿í²»¿É¸Ä±ä
-//		TableColumn col1 = listRoom.getColumnModel().getColumn(0);
-//		TableColumn col2 = listRoom.getColumnModel().getColumn(1);
-//		TableColumn col3 = listRoom.getColumnModel().getColumn(2);
-//		TableColumn col4 = listRoom.getColumnModel().getColumn(3);
-//		col1.setPreferredWidth(100); // ÉèÖÃÁĞ¿í
-//		col2.setPreferredWidth(200);
-//		col3.setPreferredWidth(60);
-//		col4.setPreferredWidth(200);
-
-		JScrollPane scrollpane = new JScrollPane(listRoom); // ½«TextArea°ü×°µ½JScrollPaneÖĞÊµÏÖ¹öÂÖĞ§¹û
+		JScrollPane scrollpane = new JScrollPane(listRoom); // å°†TextAreaåŒ…è£…åˆ°JScrollPaneä¸­å®ç°æ»šè½®æ•ˆæœ
 		scrollpane.setBounds(10, 110, 580, 390);
-		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);// ÉèÖÃ´¹Ö±¹ö¶¯Ìõ×ÜÊÇ³öÏÖ
-//		if(data!=null) {
-//			
-//		}else {
-//			
-//		}
+		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);//è®¾ç½®å‚ç›´æ»šåŠ¨æ¡æ€»æ˜¯å‡ºç°
 
 		left.add(userName);
 		left.add(sep1);
@@ -150,20 +135,19 @@ public class GameHall extends JFrame implements ActionListener {
 		right.setBounds(600, 0, 300, 600);
 		Color c = new Color(65, 105, 225);
 		right.setBackground(c);
-		//right.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
 
 		show = new JTextArea();
 
 		show.setEditable(false);
 		show.setLineWrap(true);
-		JScrollPane scrollpane = new JScrollPane(show); // ½«TextArea°ü×°µ½JScrollPaneÖĞÊµÏÖ¹öÂÖĞ§¹û
+		JScrollPane scrollpane = new JScrollPane(show); // å°†TextAreaåŒ…è£…åˆ°JScrollPaneä¸­å®ç°æ»šè½®æ•ˆæœ
 		scrollpane.setBounds(10, 10, 270, 520);
-		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);// ÉèÖÃ´¹Ö±¹ö¶¯Ìõ×ÜÊÇ³öÏÖ
+		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);//è®¾ç½®å‚ç›´æ»šåŠ¨æ¡æ€»æ˜¯å‡ºç°
 
 		input = new JTextField();
 		input.setBounds(10, 550, 200, 30);
 
-		send = new JButton("·¢ËÍ");
+		send = new JButton("å‘é€");
 		send.setBounds(220, 550, 60, 30);
 		right.add(scrollpane);
 		right.add(input);
@@ -171,7 +155,7 @@ public class GameHall extends JFrame implements ActionListener {
 	}
 
 	/**
-	 * »ñÈ¡TableÏÔÊ¾µÄÊı¾İ
+	 * è·å–Tableæ˜¾ç¤ºçš„æ•°æ®
 	 * 
 	 * @param data
 	 * @param list
@@ -199,7 +183,7 @@ public class GameHall extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == create) { // ´´½¨·¿¼ä
+		if (e.getSource() == create) { // åˆ›å»ºæˆ¿é—´
 			create.setEnabled(false);
 			inside.setEnabled(false);
 			int number = 0;
@@ -213,27 +197,27 @@ public class GameHall extends JFrame implements ActionListener {
 			list.add(String.valueOf(number));
 			list.add(this.name);
 			list.add("VS");
-			list.add("µÈ´ıÍæ¼Ò¼ÓÈë");
+			list.add("ç­‰å¾…ç©å®¶åŠ å…¥");
 			data.add(list);
 			getTableData();
 			DefaultTableModel model = new DefaultTableModel(this.object, columnName);
 			listRoom.setModel(model);
-			mainPage = new MainPage(this.name, "µÈ´ıÍæ¼Ò¼ÓÈë", clinet);// MainPage gameStart =
-			this.clinet.sendMessage("4:" + number + ":" + this.name + ":" + "VS:" + "µÈ´ıÍæ¼Ò¼ÓÈë");
-		} else if (e.getSource() == refresh) { // Ë¢ĞÂ·¿¼äÁĞ±í
+			mainPage = new MainPage(this.name, "ç­‰å¾…ç©å®¶åŠ å…¥", clinet);
+			this.clinet.sendMessage("4:" + number + ":" + this.name + ":" + "VS:" + "ç­‰å¾…ç©å®¶åŠ å…¥");
+		} else if (e.getSource() == refresh) { // åˆ·æ–°æˆ¿é—´åˆ—è¡¨
 
 			getTableData();
 			DefaultTableModel model = new DefaultTableModel(this.object, columnName);
 			listRoom.setModel(model);
 
-		} else if (e.getSource() == inside) { // ¼ÓÈë·¿¼ä
+		} else if (e.getSource() == inside) { // åŠ å…¥æˆ¿é—´
 			int row = listRoom.getSelectedRow();
 			if (row == -1) {
-				JOptionPane.showMessageDialog(this, "ÇëÑ¡ÔñÏÈ·¿¼ä", "ÌáÊ¾", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(this, "è¯·å…ˆé€‰æ‹©æˆ¿é—´", "æç¤ºÊ¾", JOptionPane.WARNING_MESSAGE);
 			} else {
 				String name = listRoom.getValueAt(row, 3).toString();
-				if (name.equals("µÈ´ıÍæ¼Ò¼ÓÈë")) {
-					List<String> list = data.get(row);// object[row][3]=this.name;
+				if (name.equals("ç­‰å¾…ç©å®¶åŠ å…¥")) {
+					List<String> list = data.get(row);
 					list.set(3, this.name);
 					String message = "6:" + row + ":" + this.name;
 					this.clinet.sendMessage(message);
@@ -244,12 +228,12 @@ public class GameHall extends JFrame implements ActionListener {
 					inside.setEnabled(false);
 					mainPage = new MainPage((String) object[row][1], this.name, clinet);
 				} else {
-					JOptionPane.showMessageDialog(this, "·¿¼äÒÑÂú", "ÌáÊ¾", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(this, "æˆ¿é—´å·²æ»¡", "æç¤ºÊ¾", JOptionPane.WARNING_MESSAGE);
 				}
 
 			}
 		} else if (e.getSource() == send) {
-			if (!input.getText().equals("")) { // ·¢ËÍÏûÏ¢
+			if (!input.getText().equals("")) { //å‘é€æ¶ˆæ¯
 				clinet.sendMessage("3:" + this.name + ":" + input.getText());
 				input.setText("");
 			}

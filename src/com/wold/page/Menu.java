@@ -17,26 +17,27 @@ import javax.swing.JOptionPane;
 public class Menu extends JFrame implements MouseListener{
 	public static Menu m;
 	private ImageIcon mune;
-	private JLabel mJLabel;//ÓÃÓÚÏÔÊ¾Í¼Æ¬
+	private JLabel mJLabel;//ç”¨äºŽæ˜¾ç¤ºå›¾ç‰‡
 	private int x;
 	private int y;
 	
 	public Menu() {
-		mune=new ImageIcon("src/image/menu.png");
+//		mune=new ImageIcon("src/image/menu.png");
+		mune=new ImageIcon(this.getClass().getResource("/image/menu.png"));
 		init();
 		startListener();
 	}
 	
 	public void init() {
-		this.setTitle("ÍøÂçÎå×ÓÆå");
-		this.setSize(420, 625); // ÉèÖÃ´°¿Ú´óÐ¡
-		this.setResizable(false);// ´°¿Ú´óÐ¡²»¿É±ä
+		this.setTitle("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		this.setSize(420, 625); // çª—å£å¤§å°
+		this.setResizable(false);// çª—å£å¤§å°ä¸å¯å˜
 		
 		mJLabel=new JLabel(mune);
 		
 		this.add(mJLabel);
 		
-		this.setLocationRelativeTo(null);	//Î»ÓÚÆÁÄ»¾ÓÖÐ
+		this.setLocationRelativeTo(null);	//å±å¹•å±…ä¸­
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -55,25 +56,24 @@ public class Menu extends JFrame implements MouseListener{
 		int y=e.getY();
 		if(x>120&&x<300&&y>220&&y<470) {
 			if(y>220&&y<280) {
-				String ip=JOptionPane.showInputDialog(null,"ÇëÊäÈë·þÎñÆ÷ip","Á¬½Ó·þÎñÆ÷",JOptionPane.PLAIN_MESSAGE);
-				Pattern pattern=Pattern.compile("^(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}$");	//ÓÃÓÚÅÐ¶Ïip¸ñÊ½
+				String ip=JOptionPane.showInputDialog(null,"è¯·è¾“å…¥æœåŠ¡å™¨IP","è¿žæŽ¥æœåŠ¡å™¨",JOptionPane.PLAIN_MESSAGE);
+				Pattern pattern=Pattern.compile("^(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])(\\.(\\d|[1-9]\\d|1\\d{2}|2[0-4]\\d|25[0-5])){3}$");	//ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ipï¿½ï¿½Ê½
 				Matcher mather=pattern.matcher(ip);
 				if(!ip.equals("")&&mather.find()) {
-					new Login("µÇÂ¼","µÇÂ¼","×¢²á",ip);
+					new Login("ç™»å½•","ç™»å½•","æ³¨å†Œ",ip);
 				}else {
-					JOptionPane.showMessageDialog(null,"ÊäÈëIP¸ñÊ½´íÎó","´íÎó",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null,"è¾“å…¥IPæ ¼å¼é”™è¯¯","é”™è¯¯",JOptionPane.ERROR_MESSAGE);
 				}
-				
-				//this.dispose();
+//				this.dispose();
 			}
 			if(y>285&&y<340) {
-				JOptionPane.showMessageDialog(this, "¹¦ÄÜ´ý¿ª·¢!");
+				JOptionPane.showMessageDialog(this, "åŠŸèƒ½å¾…å¼€å‘!");
 			}
 			if(y>345&&y<410) {
-				System.out.println(e.getX()+","+e.getY()+"°ïÖú");
+				System.out.println(e.getX()+","+e.getY()+"å¸®åŠ©");
 			}
 			if(y>420&&y<470) {
-				JOptionPane.showMessageDialog(this, "1.0.0°æ±¾   ×÷Õß:wold","¹ØÓÚ",JOptionPane.PLAIN_MESSAGE);
+				JOptionPane.showMessageDialog(this, "1.0.0ç‰ˆæœ¬    ä½œè€…:wold","å…³äºŽ",JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 	}

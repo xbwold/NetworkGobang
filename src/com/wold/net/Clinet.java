@@ -37,22 +37,22 @@ public class Clinet extends Thread {
 
 	public void run() {
 		try {
-			System.out.println("¿Í»§¶Ë¿ªÆô");
+			System.out.println("å®¢æˆ·ç«¯å¼€å¯");
 			socket = new Socket(ip, 9999);
 			sendMessage("5:get");
 			while (true) {
 				BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				String data = null;
 				while ((data = br.readLine()) != null) {
-					System.out.println("ÊÕµ½£º" + data);
+					System.out.println("æ”¶åˆ°" + data);
 					String dataArr[] = data.split(":");
 
-					if (dataArr[0].equals("0")) { // Æå×ÓĞÅÏ¢
-						System.out.println("×ø±êÎ»ÖÃ");
+					if (dataArr[0].equals("0")) { // æ£‹å­ä¿¡æ¯
+						System.out.println("åæ ‡ä½ç½®");
 						GameHall.mainPage.getPlayer().setState(1);
 						if (GameHall.mainPage.getPlayer().getRole() == 1) {
-							GameHall.mainPage.state1.setText("×´Ì¬:µÈ´ı...");
-							GameHall.mainPage.state2.setText("×´Ì¬:ÏÂÆå...");
+							GameHall.mainPage.state1.setText("çŠ¶æ€:ç­‰å¾…...");
+							GameHall.mainPage.state2.setText("çŠ¶æ€:ä¸‹æ£‹...");
 							GameHall.mainPage.getPlayer().setPlayerChessCoord(Integer.valueOf(dataArr[1]),
 									Integer.valueOf(dataArr[2]), 2);
 							int win = Judge.whowin(Integer.valueOf(dataArr[1]), Integer.valueOf(dataArr[2]),
@@ -60,10 +60,10 @@ public class Clinet extends Thread {
 							String winMessage = "";
 							if (win == 2) {
 								GameHall.mainPage.contre.repaint();
-								winMessage = "ºÜÒÅº¶ÄúÊäÁË£¡";
+								winMessage = "å¾ˆé—æ†¾æ‚¨è¾“äº†";
 								JOptionPane.showMessageDialog(null, winMessage);
 								GameHall.mainPage.prepare = 0;
-								GameHall.mainPage.start.setText("¿ªÊ¼ÓÎÏ·");
+								GameHall.mainPage.start.setText("å¼€å§‹æ¸¸æˆ");
 								GameHall.mainPage.start.setEnabled(true);
 								GameHall.mainPage.remake.setEnabled(false);
 								GameHall.mainPage.lose.setEnabled(false);
@@ -79,25 +79,25 @@ public class Clinet extends Thread {
 								GameHall.mainPage.time = new TimeThread(MainPage.countDown);
 								GameHall.mainPage.time.start();
 								
-								//¼ÇÂ¼ÏÂÆåµØ·½
+								//è®°å½•ä¸‹æ£‹åœ°æ–¹
 								List<Integer> list=new ArrayList<>();
 								list.add(Integer.valueOf(dataArr[1]));
 								list.add(Integer.valueOf(dataArr[2]));
 								GameHall.mainPage.getPlayer().getRecord().push(list);
 							}
 						} else {
-							GameHall.mainPage.state2.setText("×´Ì¬:µÈ´ı...");
-							GameHall.mainPage.state1.setText("×´Ì¬:ÏÂÆå...");
+							GameHall.mainPage.state2.setText("çŠ¶æ€:ç­‰å¾…...");
+							GameHall.mainPage.state1.setText("çŠ¶æ€:ä¸‹æ£‹...");
 							GameHall.mainPage.getPlayer().setPlayerChessCoord(Integer.valueOf(dataArr[1]),
 									Integer.valueOf(dataArr[2]), 1);
 							int win = Judge.whowin(Integer.valueOf(dataArr[1]), Integer.valueOf(dataArr[2]),
 									GameHall.mainPage.getPlayer().getPlayerChessCoord(), 1);
 							String winMessage = "";
 							if (win == 1) {
-								winMessage = "ºÜÒÅº¶ÄúÊäÁË£¡";
+								winMessage = "å¾ˆé—æ†¾æ‚¨è¾“äº†";
 								JOptionPane.showMessageDialog(null, winMessage);
 								GameHall.mainPage.prepare = 0;
-								GameHall.mainPage.start.setText("¿ªÊ¼ÓÎÏ·");
+								GameHall.mainPage.start.setText("å¼€å§‹æ¸¸æˆ");
 								GameHall.mainPage.start.setEnabled(true);
 								GameHall.mainPage.remake.setEnabled(false);
 								GameHall.mainPage.lose.setEnabled(false);
@@ -114,7 +114,7 @@ public class Clinet extends Thread {
 								GameHall.mainPage.time = new TimeThread(MainPage.countDown);
 								GameHall.mainPage.time.start();
 								
-								//¼ÇÂ¼ÏÂÆåµØ·½
+								//è®°å½•ä¸‹æ£‹åœ°æ–¹
 								List<Integer> list=new ArrayList<>();
 								list.add(Integer.valueOf(dataArr[1]));
 								list.add(Integer.valueOf(dataArr[2]));
@@ -122,7 +122,7 @@ public class Clinet extends Thread {
 							}
 						}
 
-					} else if (dataArr[0].equals("1")) { // ·¿¼äÄÚĞÅÏ¢
+					} else if (dataArr[0].equals("1")) { // æˆ¿é—´å†…ä¿¡æ¯
 						String message = "";
 						for (int i = 1; i < dataArr.length; i++) {
 							if (i != 1) {
@@ -131,7 +131,7 @@ public class Clinet extends Thread {
 						}
 						GameHall.mainPage.getShowMessage()
 								.append(new Date() + "  " + dataArr[1] + " Ëµ:\n" + message + "\n");
-					} else if (dataArr[0].equals("2")) {// ÓĞÈË×¼±¸
+					} else if (dataArr[0].equals("2")) {//æœ‰äººå‡†å¤‡
 						GameHall.mainPage.prepare += 1;
 						if (GameHall.mainPage.prepare >= 2) {
 							if (GameHall.mainPage.getPlayer().getRole() == 1) {
@@ -141,41 +141,41 @@ public class Clinet extends Thread {
 								GameHall.mainPage.getPlayer().setState(1);
 								GameHall.mainPage.time = new TimeThread(MainPage.countDown);
 								GameHall.mainPage.time.start();
-								GameHall.mainPage.start.setText("ÓÎÏ·ÖĞ");
+								GameHall.mainPage.start.setText("æ¸¸æˆä¸­");
 							} else {
 								GameHall.mainPage.contre.setChickeAble(false);
 								GameHall.mainPage.getPlayer().setState(0);
-								GameHall.mainPage.start.setText("ÓÎÏ·ÖĞ");
+								GameHall.mainPage.start.setText("æ¸¸æˆä¸­");
 								GameHall.mainPage.remake.setEnabled(false);
 								GameHall.mainPage.lose.setEnabled(false);
 								GameHall.mainPage.quit.setEnabled(false);
 							}
 						}
 
-					} else if (dataArr[0].equals("3")) { // ½ÓÊÜÓÎÏ·´óÌüµÄÏûÏ¢
+					} else if (dataArr[0].equals("3")) { // æ¥å—æ¸¸æˆå¤§å…çš„ä¿¡æ¯
 						GameHall.show.append(new Date() + "  " + dataArr[1] + " Ëµ:\n" + dataArr[2] + "\n");
-					} else if (dataArr[0].equals("4")) { // ½ÓÊÕ´´½¨·¿¼äĞÅÏ¢
-						System.out.println("ÊÕµ½:" + data);
+					} else if (dataArr[0].equals("4")) { // æ¥å—åˆ›å»ºæˆ¿é—´ä¿¡æ¯
+						System.out.println("æ”¶åˆ°:" + data);
 						List<String> list = new ArrayList<>();
 						list.add(dataArr[1]);
 						list.add(dataArr[2]);
 						list.add(dataArr[3]);
 						list.add(dataArr[4]);
 						GameHall.data.add(list);
-					} else if (dataArr[0].equals("5")) { // Í¨Öª·¿Ö÷ÓĞÈË¼ÓÈë
+					} else if (dataArr[0].equals("5")) { // é€šçŸ¥æˆ¿ä¸»æœ‰äººåŠ å…¥
 						GameHall.mainPage.setNameClinet(dataArr[1]);
 						GameHall.mainPage.start.setEnabled(true);
-					} else if (dataArr[0].equals("6")) { // ¼ÓÈëÁË·¿¼ä
+					} else if (dataArr[0].equals("6")) { // åŠ å…¥äº†æˆ¿é—´
 						List<String> list = GameHall.data.get(Integer.valueOf(dataArr[1]));// object[row][3]=this.name;
 						list.set(3, dataArr[2]);
-					}else if(dataArr[0].equals("7")) {	//»ÚÆå 7:0 7:1 7:2
-						if(dataArr[1].equals("0")) {	//»ÚÆåÉêÇë
-							int agree=JOptionPane.showConfirmDialog(null,"¶Ô·½ÉêÇë»ÚÆå,ÊÇ·ñÍ¬Òâ","»ÚÆåÉêÇë",JOptionPane.YES_NO_OPTION);
-							System.out.println("ÊÇ·ñÍ¬Òâ:"+agree);
+					}else if(dataArr[0].equals("7")) {	//æ‚”æ£‹ 7:0 7:1 7:2
+						if(dataArr[1].equals("0")) {	//æ‚”æ£‹ç”³è¯·
+							int agree=JOptionPane.showConfirmDialog(null,"å¯¹æ–¹ç”³è¯·æ‚”æ£‹ï¼Œæ˜¯å¦åŒæ„?","æ‚”æ£‹ç”³è¯·",JOptionPane.YES_NO_OPTION);
+							System.out.println("æ˜¯å¦åŒæ„:"+agree);
 							String message="7:";
-							if(agree==1) {	//²»Í¬Òâ»ÚÆå
+							if(agree==1) {	//ä¸åŒæ„æ‚”æ£‹
 								message+="2";
-							}else {	//Í¬Òâ»ÚÆå
+							}else {	//Í¬åŒæ„æ‚”æ£‹
 								message+="1";
 								for(int i=0;i<2;i++) {
 									List list=GameHall.mainPage.getPlayer().getRecord().pop();
@@ -183,23 +183,23 @@ public class Clinet extends Thread {
 								}
 							}
 							sendMessage(message);
-						}else if(dataArr[1].equals("1")){	//ÊÕµ½Í¬Òâ
-							JOptionPane.showMessageDialog(null, "¶Ô·½Í¬Òâ»ÚÆå", "»ÚÆåÌáÊ¾",JOptionPane.INFORMATION_MESSAGE);
+						}else if(dataArr[1].equals("1")){	//æ”¶åˆ°åŒæ„
+							JOptionPane.showMessageDialog(null, "å¯¹æ–¹åŒæ„æ‚”æ£‹", "æ‚”æ£‹æç¤º",JOptionPane.INFORMATION_MESSAGE);
 							for(int i=0;i<2;i++) {
 								List list=GameHall.mainPage.getPlayer().getRecord().pop();
 								GameHall.mainPage.getPlayer().setPlayerChessCoord((int)list.get(0), (int)list.get(1), 0);
 							}
 							GameHall.mainPage.contre.setChickeAble(true);
-							GameHall.mainPage.remake.setText("»ÚÆå");
-						}else if(dataArr[1].equals("2")) {	//ÊÕµ½²»Í¬Òâ
-							JOptionPane.showMessageDialog(null, "¶Ô·½²»Í¬Òâ»ÚÆå", "»ÚÆåÌáÊ¾",JOptionPane.INFORMATION_MESSAGE);
+							GameHall.mainPage.remake.setText("æ‚”æ£‹");
+						}else if(dataArr[1].equals("2")) {	//æ”¶åˆ°ä¸åŒæ„
+							JOptionPane.showMessageDialog(null, "å¯¹æ–¹ä¸åŒæ„æ‚”æ£‹", "æ‚”æ£‹æç¤º",JOptionPane.INFORMATION_MESSAGE);
 							GameHall.mainPage.contre.setChickeAble(true);
-							GameHall.mainPage.remake.setText("»ÚÆå");
+							GameHall.mainPage.remake.setText("æ‚”æ£‹");
 						}
 					}else if(dataArr[0].equals("8")) {
-						JOptionPane.showMessageDialog(null, "¹§Ï²Äú»ñµÃÊ¤Àû!");
+						JOptionPane.showMessageDialog(null, "æ­å–œæ‚¨è·å¾—èƒœåˆ©!");
 						GameHall.mainPage.prepare = 0;
-						GameHall.mainPage.start.setText("¿ªÊ¼ÓÎÏ·");
+						GameHall.mainPage.start.setText("å¼€å§‹æ¸¸æˆ");
 						GameHall.mainPage.start.setEnabled(true);
 						GameHall.mainPage.remake.setEnabled(false);
 						GameHall.mainPage.lose.setEnabled(false);
@@ -210,19 +210,19 @@ public class Clinet extends Thread {
 						GameHall.mainPage.repaint();
 					}else if(dataArr[0].equals("9")) {
 						int number=Integer.valueOf(dataArr[2]);
-						if(dataArr[1].equals("1")) { //·¿Ö÷ÍË³ö£¬½âÉ¢·¿¼ä
+						if(dataArr[1].equals("1")) { //æˆ¿ä¸»é€€å‡ºï¼Œè§£æ•£æˆ¿é—´
 							GameHall.data.remove(number);
-							System.out.println("½âÉ¢Ò»¸ö·¿¼äºó´óĞ¡:"+GameHall.data.size());
-						}else if(dataArr[1].equals("2")){ //Íæ¼ÒÍË³ö£¬µÈ´ıÍæ¼Ò¼ÓÈë
+							System.out.println("è§£æ•£ä¸€ä¸ªæˆ¿é—´åå¤§å°:"+GameHall.data.size());
+						}else if(dataArr[1].equals("2")){ //ç©å®¶é€€å‡ºï¼Œç­‰å¾…ç©å®¶åŠ å…¥
 							
 							List<String> list = GameHall.data.get(number);
-							list.set(3, "µÈ´ıÍæ¼Ò¼ÓÈë");
+							list.set(3, "ç­‰å¾…ç©å®¶åŠ å…¥");
 							GameHall.data.set(number, list);
-						}else if(dataArr[1].equals("0")) {	//·µ»ØÓÎÏ·´óÌü£¬¿ªÆô´óÌü¼ÓÈë¡¢´´½¨·¿¼ä°´Å¥
+						}else if(dataArr[1].equals("0")) {	//æ”¾å›æ¸¸æˆå¤§å…ï¼Œå¼€å¯å¤§å…åŠ å…¥ã€‚åˆ›å»ºæŒ‰é’®
 							GameHall.create.setEnabled(true);
 							GameHall.inside.setEnabled(true);
-							if(dataArr[2].equals("1")) {	//·¿Ö÷Àë¿ª£¬·¿¼äÒÑ½âÉ¢ ´Ë´¦µÄdataArr[2]²»ÊÇ·¿¼äºÅ£¬±íÊ¾ÊÇ·ñÎªËùÔÚ·¿¼äÒÑ½âÉ¢
-								JOptionPane.showMessageDialog(null, "·¿Ö÷Àë¿ª£¬·¿¼äÒÑ½âÉ¢");
+							if(dataArr[2].equals("1")) {	//æˆ¿ä¸»ç¦»å¼€ï¼Œæˆ¿é—´å·²è§£æ•£ æ­¤å¤„çš„dataArr[2]ä¸æ˜¯æˆ¿é—´å·ï¼Œè¡¨ç¤ºæ˜¯å¦ä¸ºæ‰€åœ¨æˆ¿é—´å·²è§£æ•£
+								JOptionPane.showMessageDialog(null, "æˆ¿ä¸»ç¦»å¼€ï¼Œæˆ¿é—´å·²è§£æ•£");
 								GameHall.mainPage.dispose();
 							}
 						}

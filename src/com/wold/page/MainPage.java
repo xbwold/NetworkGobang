@@ -41,55 +41,59 @@ import com.wold.pojo.Player;
 
 @SuppressWarnings("serial")
 public class MainPage extends JFrame implements MouseListener, MouseMotionListener, ActionListener {
-	//public static MainPage main;
+
 	private JPanel left;
 	public static ChessBoard contre;
 	private JPanel right;
-	//private JTextField ip;
 	public JButton start;
-	public JButton remake;	//»ÚÆåÒÔ¼°ÈÏÊä¶¼ĞèÒªµ½×Ô¼ºÏÂÆå²ÅÄÜ²Ù×÷
+	public JButton remake; // æ‚”æ£‹åŠè®¤è¾“éƒ½éœ€è¦åˆ°è‡ªå·±ä¸‹æ£‹æ‰èƒ½æ“ä½œ
 	public JButton lose;
 	public JButton quit;
 	private JTextArea showMessage;
+
 	public JTextArea getShowMessage() {
 		return showMessage;
 	}
+
 	private JTextField input;
 	private JButton send;
 
-	private Clinet clinet ;
+	private Clinet clinet;
 	private Boolean isServer = null;
 	private JLabel nameServer;
 	private JLabel nameClinet;
+
 	public void setNameClinet(String name) {
 		nameClinet.setText(name);
 	}
+
 	public static JLabel countDown;
 	public static JLabel state1;
 	public static JLabel state2;
-	
+
 	private Player player;
-	
+
 	public Player getPlayer() {
 		return player;
 	}
-	
-	public static TimeThread time;//µ¹¼ÆÊ±
-	
-	public int prepare;	//·¿¼äÖĞ×¼±¸µÄÈËÊı
-	public MainPage(String mainName,String clinetName,Clinet clinet) {
-		prepare=0;
+
+	public static TimeThread time;// å€’è®¡æ—¶
+
+	public int prepare; // æˆ¿é—´ä¸­å‡†å¤‡äººæ•°
+
+	public MainPage(String mainName, String clinetName, Clinet clinet) {
+		prepare = 0;
 		nameServer = new JLabel(mainName, JLabel.CENTER);
 		nameClinet = new JLabel(clinetName, JLabel.CENTER);
-		this.clinet=clinet;
+		this.clinet = clinet;
 		init();
-		if("µÈ´ıÍæ¼Ò¼ÓÈë".equals(clinetName)) {//·¿Ö÷
-			player=new Player(1,0);
+		if ("ç­‰å¾…ç©å®¶åŠ å…¥".equals(clinetName)) {//æˆ¿ä¸»
+			player = new Player(1, 0);
 			start.setEnabled(false);
-		}else {
-			player=new Player(2,0);
+		} else {
+			player = new Player(2, 0);
 		}
-		
+
 	}
 
 //	public static void main(String[] args) {
@@ -97,10 +101,10 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 //	}
 
 	public void init() {
-		this.setTitle("ÍøÂçÎå×ÓÆå");
-		this.setSize(1400, 800); // ÉèÖÃ´°¿Ú´óĞ¡
-		this.setResizable(false);// ´°¿Ú´óĞ¡²»¿É±ä
-		this.setLayout(null); // ÉèÖÃJFrame²¼¾ÖÎªnull
+		this.setTitle("ç½‘ç»œäº”å­æ£‹");
+		this.setSize(1400, 800); // çª—å£å¤§å°
+		this.setResizable(false);// çª—å£å¤§å°ä¸å¯æ”¹å˜
+		this.setLayout(null); // å¸ƒå±€ä¸ºnull
 
 		initLeftJPane();
 		initContreJPane();
@@ -111,17 +115,13 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 
 		startMonitor();
 
-//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize(); // »ñÈ¡ÆÁÄ»´óĞ¡
-//		int centerX = screenSize.width / 2;
-//		int centerY = screenSize.height / 2;
-//		this.setLocation(centerX - 1400 / 2, centerY - 800 / 2);// ÆÁÄ»¾ÓÖĞÏÔÊ¾
-		this.setLocationRelativeTo(null);	//Î»ÓÚÆÁÄ»¾ÓÖĞ
+		this.setLocationRelativeTo(null); //å±å¹•å±…ä¸­
 		this.setVisible(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 
 	/**
-	 * Ò³Ãæ×ó²¿³õÊ¼»¯
+	 * é¡µé¢å·¦éƒ¨åˆå§‹åŒ–
 	 */
 	private void initLeftJPane() {
 		left = new JPanel();
@@ -133,38 +133,38 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 		left.setLocation(0, 0);
 		Color c = new Color(192, 192, 192);
 		left.setBackground(c);
-		left.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));//ÉèÖÃ±ß¿ò
-		
-		ImageIcon headImage1 = new ImageIcon("src/image/head1.jpg");
+		left.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));//è®¾ç½®è¾¹æ¡†
+
+		ImageIcon headImage1 = new ImageIcon(this.getClass().getResource("/image/head1.jpg"));
 		headImage1.setImage(headImage1.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
 		JLabel head1 = new JLabel(headImage1);
-		head1.setPreferredSize(new Dimension(100, 100));// ÉèÖÃ°´Å¥´óĞ¡
+		head1.setPreferredSize(new Dimension(100, 100));// è®¾ç½®å¤§å°
 		head1.setBorder(BorderFactory.createLineBorder(Color.black));
-		ImageIcon headImage2 = new ImageIcon("src/image/head2.jpg");
+		ImageIcon headImage2 = new ImageIcon(this.getClass().getResource("/image/head2.jpg"));
 		headImage2.setImage(headImage2.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
 		JLabel head2 = new JLabel(headImage2);
-		head2.setPreferredSize(new Dimension(100, 100));// ÉèÖÃ°´Å¥´óĞ¡
+		head2.setPreferredSize(new Dimension(100, 100));//è®¾ç½®å¤§å°
 		head2.setBorder(BorderFactory.createLineBorder(Color.black));
-		//Ãû×Ö±êÇ©ÊôĞÔ
-		nameServer.setPreferredSize(new Dimension(200, 50));// ÉèÖÃ°´Å¥´óĞ¡
+		// åç§°æ ‡ç­¾å±æ€§
+		nameServer.setPreferredSize(new Dimension(200, 50));//è®¾ç½®å¤§å°
 		nameServer.setBorder(BorderFactory.createLineBorder(Color.black));
-		
-		nameClinet.setPreferredSize(new Dimension(200, 50));// ÉèÖÃ°´Å¥´óĞ¡
+
+		nameClinet.setPreferredSize(new Dimension(200, 50));// è®¾ç½®å¤§å°
 		nameClinet.setBorder(BorderFactory.createLineBorder(Color.black));
-		JLabel win1 = new JLabel("Ê¤ÂÊ:0%", JLabel.CENTER);
-		win1.setPreferredSize(new Dimension(200, 50));// ÉèÖÃ°´Å¥´óĞ¡
+		JLabel win1 = new JLabel("èƒœç‡:0%", JLabel.CENTER);
+		win1.setPreferredSize(new Dimension(200, 50));// è®¾ç½®å¤§å°
 		win1.setBorder(BorderFactory.createLineBorder(Color.black));
-		JLabel win2 = new JLabel("Ê¤ÂÊ:0%", JLabel.CENTER);
-		win2.setPreferredSize(new Dimension(200, 50));// ÉèÖÃ°´Å¥´óĞ¡
+		JLabel win2 = new JLabel("èƒœç‡:0%", JLabel.CENTER);
+		win2.setPreferredSize(new Dimension(200, 50));//è®¾ç½®å¤§å°
 		win2.setBorder(BorderFactory.createLineBorder(Color.black));
-		state1 = new JLabel("×´Ì¬:µÈ´ı...", JLabel.CENTER);
-		state1.setPreferredSize(new Dimension(200, 50));// ÉèÖÃ°´Å¥´óĞ¡
+		state1 = new JLabel("çŠ¶æ€:ç­‰å¾…...", JLabel.CENTER);
+		state1.setPreferredSize(new Dimension(200, 50));//è®¾ç½®å¤§å°
 		state1.setBorder(BorderFactory.createLineBorder(Color.black));
-		state2 = new JLabel("×´Ì¬:ÏÂÆå...", JLabel.CENTER);
-		state2.setPreferredSize(new Dimension(200, 50));// ÉèÖÃ°´Å¥´óĞ¡
+		state2 = new JLabel("çŠ¶æ€:ä¸‹æ£‹...", JLabel.CENTER);
+		state2.setPreferredSize(new Dimension(200, 50));// è®¾ç½®å¤§å°
 		state2.setBorder(BorderFactory.createLineBorder(Color.black));
-		countDown = new JLabel("µ¹¼ÆÊ±:30s", JLabel.CENTER);
-		countDown.setPreferredSize(new Dimension(200, 50));// ÉèÖÃ°´Å¥´óĞ¡
+		countDown = new JLabel("å€’è®¡æ—¶:30s", JLabel.CENTER);
+		countDown.setPreferredSize(new Dimension(200, 50));// è®¾ç½®å¤§å°
 		countDown.setBorder(BorderFactory.createLineBorder(Color.black));
 
 		left.add(head1);
@@ -180,7 +180,7 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 	}
 
 	/**
-	 * Ò³ÃæÖĞ¼äJPane²¼¾Ö³õÊ¼»¯
+	 * ä¸­é—´éƒ¨åˆ†åˆå§‹åŒ–
 	 */
 	private void initContreJPane() {
 		contre = new ChessBoard();
@@ -190,7 +190,7 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 	}
 
 	/**
-	 * Ò³ÃæÓÒ²¿²¼¾Ö³õÊ¼»¯
+	 * å³éƒ¨åˆå§‹åŒ–
 	 */
 
 	private void initRightJPane() {
@@ -201,29 +201,30 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 		right.setSize(330, 800);
 		right.setLocation(1070, 0);
 		Color c = new Color(65, 105, 225);
-		right.setBackground(c);	
-		right.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));//ÉèÖÃ±ß¿ò
-		
-		start = new JButton("¿ªÊ¼ÓÎÏ·");
-		start.setPreferredSize(new Dimension(200, 50));// ÉèÖÃ°´Å¥´óĞ¡
-		start.setFont(new Font("ËÎÌå", Font.BOLD, 20));
-		remake = new JButton("»ÚÆå");
+		right.setBackground(c);
+		right.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));//è®¾ç½®è¾¹æ¡†
+		start = new JButton("å¼€å§‹æ¸¸æˆ");
+		start.setPreferredSize(new Dimension(200, 50));// è®¾ç½®å¤§å°
+		start.setFont(new Font("å®‹ä½“", Font.BOLD, 20));
+		remake = new JButton("æ‚”æ£‹");
 		remake.setPreferredSize(new Dimension(200, 50));
-		remake.setFont(new Font("ËÎÌå", Font.BOLD, 20));
-		lose = new JButton("ÈÏÊä");
+		remake.setFont(new Font("å®‹ä½“", Font.BOLD, 20));
+		remake.setEnabled(false);
+		lose = new JButton("è®¤è¾“");
 		lose.setPreferredSize(new Dimension(200, 50));
-		lose.setFont(new Font("ËÎÌå", Font.BOLD, 20));
-		quit = new JButton("·µ»Ø");
+		lose.setFont(new Font("å®‹ä½“", Font.BOLD, 20));
+		lose.setEnabled(false);
+		quit = new JButton("è¿”å›");
 		quit.setPreferredSize(new Dimension(200, 50));
-		quit.setFont(new Font("ËÎÌå", Font.BOLD, 20));
+		quit.setFont(new Font("å®‹ä½“", Font.BOLD, 20));
 		showMessage = new JTextArea(23, 25);
 		showMessage.setEditable(false);
 		showMessage.setLineWrap(true);
-		JScrollPane scrollpane = new JScrollPane(showMessage); // ½«TextArea°ü×°µ½JScrollPaneÖĞÊµÏÖ¹öÂÖĞ§¹û
-		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);// ÉèÖÃ´¹Ö±¹ö¶¯Ìõ×ÜÊÇ³öÏÖ
+		JScrollPane scrollpane = new JScrollPane(showMessage); // å®ç°æ»šåŠ¨ä½“
+		scrollpane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
 		input = new JTextField(20);
-		send = new JButton("·¢ËÍ");
+		send = new JButton("å‘é€");
 		start.setSize(20, 20);
 		right.add(start);
 		right.add(remake);
@@ -235,7 +236,7 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 	}
 
 	/**
-	 * ¿ªÆô×é¼şµÄÊÂ¼ş¼àÌı
+	 * å¼€å¯ç»„ä»¶çš„æ—¶é—´ç›‘å¬
 	 */
 	private void startMonitor() {
 		start.addActionListener(this);
@@ -251,79 +252,79 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == start) {	//×¼±¸ÓÎÏ·
-			prepare+=1;
+		if (e.getSource() == start) { //å‡†å¤‡æ¸¸æˆ
+			prepare += 1;
 			start.setEnabled(false);
-			String message="2:"+"start";
+			String message = "2:" + "start";
 			clinet.sendMessage(message);
-			if(prepare>=2) {
-				if(player.getRole()==1) {
+			if (prepare >= 2) {
+				if (player.getRole() == 1) {
 					contre.setChickeAble(true);
 					lose.setEnabled(true);
 					quit.setEnabled(false);
 					player.setState(1);
-					time=new TimeThread(countDown);
+					time = new TimeThread(countDown);
 					time.start();
-					start.setText("ÓÎÏ·ÖĞ");
-				}else {
+					start.setText("æ¸¸æˆä¸­");
+				} else {
 					contre.setChickeAble(false);
 					player.setState(0);
-					start.setText("ÓÎÏ·ÖĞ");
+					start.setText("æ¸¸æˆä¸­");
 					remake.setEnabled(false);
 					lose.setEnabled(false);
 				}
-			}else {
-				start.setText("µÈ´ı¶ÔÊÖ×¼±¸");
+			} else {
+				start.setText("ç­‰å¾…å¯¹æ‰‹å‡†å¤‡");
+				quit.setEnabled(false);
 			}
 
-		} else if (e.getSource() == remake) {	//»ÚÆå
-			if(player.getRecord().getSize()>=2) {
-				String message="7:0";	//·¢ËÍ»ÚÆåÇëÇó
+		} else if (e.getSource() == remake) { // æ‚”æ£‹
+			if (player.getRecord().getSize() >= 2) {
+				String message = "7:0"; //å‘é€æ‚”æ£‹è¯·æ±‚
 				clinet.sendMessage(message);
 				contre.setChickeAble(false);
 				remake.setEnabled(false);
-				remake.setText("µÈ´ı¶Ô·½»Ø¸´");
-				//List list=player.getRecord().pop();
-				//System.out.println("»ÚÆå:"+list.get(0)+","+list.get(1));
-			}else {
-				JOptionPane.showMessageDialog(this, "²½Êı²»¹»ÎŞ·¨»ÚÆå", "»ÚÆåÌáÊ¾",JOptionPane.INFORMATION_MESSAGE);
-			}
-		} else if (e.getSource() == lose) {	//ÈÏÊä
-			time.interrupt();//½áÊøµ¹¼ÆÊ±
-			String message="8:0";
-			clinet.sendMessage(message);
+				remake.setText("ç­‰å¾…å¯¹æ–¹å›å¤");
 			
-			prepare=0;
-			start.setText("¿ªÊ¼ÓÎÏ·");
+			} else {
+				JOptionPane.showMessageDialog(this, "æ­¥æ•°ä¸å¤Ÿï¼Œæ— æ³•æ‚”æ£‹", "æç¤º", JOptionPane.INFORMATION_MESSAGE);
+			}
+		} else if (e.getSource() == lose) { // è®¤è¾“
+			time.interrupt();// ç»“æŸå€’è®¡æ—¶
+			String message = "8:0";
+			clinet.sendMessage(message);
+
+			prepare = 0;
+			start.setText("å¼€å§‹æ¸¸æˆ");
 			start.setEnabled(true);
 			remake.setEnabled(false);
 			lose.setEnabled(false);
 			quit.setEnabled(true);
 			contre.setChickeAble(false);
 			player.setState(0);
-			player.initPlayerChessCoord();		
+			player.initPlayerChessCoord();
 			repaint();
-			
-			JOptionPane.showMessageDialog(this, "ºÜÒÅº¶ÄúÊäÁË£¡");
-			
-		} else if (e.getSource() == quit) {	//ÍË³ö·¿¼ä	9:role
-			System.out.println("·µ»Ø");
-			int role=player.getRole();
-			String message="9:"+role;
-			this.dispose();	//¹Ø±Õ´°¿Ú
+
+			JOptionPane.showMessageDialog(this, "å¾ˆé—æ†¾æ‚¨è¾“äº†!");
+
+		} else if (e.getSource() == quit) { //é€€å‡ºæˆ¿é—´ 9:role
+		
+			int role = player.getRole();
+			String message = "9:" + role;
+			this.dispose(); //å…³é—­çª—å£
 			clinet.sendMessage(message);
-		} else if (e.getSource() == send) {	//·¢ËÍĞÅÏ¢
-			if (!"µÈ´ıÍæ¼Ò¼ÓÈë".equals(nameClinet.getText())) {
+		} else if (e.getSource() == send) { // å‘é€ä¿¡æ¯
+			if (!"ç­‰å¾…ç©å®¶åŠ å…¥".equals(nameClinet.getText())) {
 				String message = input.getText();
-				String name="";
+				String name = "";
 				if (!message.equals("")) {
-					if(player.getRole()==1) {
-						name =nameServer.getText();
-					}else {
-						name =nameClinet.getText();
+					if (player.getRole() == 1) {
+						name = nameServer.getText();
+					} else {
+						name = nameClinet.getText();
 					}
-					showMessage.append(new Date()+"  "+name+" Ëµ:\n"+message+"\n");
-					message="1:"+name+":"+message;
+					showMessage.append(new Date() + "  " + name + " è¯´:\n" + message + "\n");
+					message = "1:" + name + ":" + message;
 					input.setText("");
 					clinet.sendMessage(message);
 				}
@@ -337,7 +338,7 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 			if (player.getState() == 1) {
 				int x = e.getX();
 				int y = e.getY();
-				int px=0, py=0;
+				int px = 0, py = 0;
 				if (x < 36) {
 					px = 0;
 				} else if (x > 798) {
@@ -371,46 +372,46 @@ public class MainPage extends JFrame implements MouseListener, MouseMotionListen
 						}
 					}
 				}
-				//ÅĞ¶Ïµã»÷µØ·½ÊÇ·ñÓĞÆå×Ó
+				// åˆ¤æ–­ç‚¹å‡»åœ°æ–¹æ˜¯å¦æœ‰æ£‹å­
 				if (player.getPlayerChessCoord()[px][py] == Chess.BLANK) {
-					player.setPlayerChessCoord(px, py,player.getRole());
+					player.setPlayerChessCoord(px, py, player.getRole());
 					repaint();
 					player.setState(0);
-					if(player.getRole()==1) {
-						state2.setText("×´Ì¬:µÈ´ı...");
-						state1.setText("×´Ì¬:ÏÂÆå...");
-					}else {
-						state1.setText("×´Ì¬:µÈ´ı...");
-						state2.setText("×´Ì¬:ÏÂÆå...");
+					if (player.getRole() == 1) {
+						state2.setText("çŠ¶æ€:ç­‰å¾…...");
+						state1.setText("çŠ¶æ€:ä¸‹æ£‹...");
+					} else {
+						state1.setText("çŠ¶æ€:ç­‰å¾…...");
+						state2.setText("çŠ¶æ€:ä¸‹æ£‹...");
 					}
-					time.interrupt();//½áÊøµ¹¼ÆÊ±
-					
-					String message="0:"+px+":"+py;
-					clinet.sendMessage(message);	//·¢ËÍĞÅÏ¢µ½·şÎñÆ÷
-					
-					//ÅĞ¶ÏÊÇ·ñ½áÊøÓÎÏ·
-					int win=Judge.whowin(px, py, player.getPlayerChessCoord(), player.getRole());
-					String winMessage="";
-					if(win==player.getRole()) {
-						winMessage="¹§Ï²Äú»ñµÃÊ¤Àû!";
+					time.interrupt();// ç»“æŸå€’è®¡æ—¶
+
+					String message = "0:" + px + ":" + py;
+					clinet.sendMessage(message); //å‘é€ä¿¡æ¯åˆ°æœåŠ¡å™¨
+
+					//åˆ¤æ–­æ˜¯å¦ç»“æŸæ¸¸æˆ
+					int win = Judge.whowin(px, py, player.getPlayerChessCoord(), player.getRole());
+					String winMessage = "";
+					if (win == player.getRole()) {
+						winMessage = "æ­å–œæ‚¨è·å¾—èƒœåˆ©!";
 						JOptionPane.showMessageDialog(this, winMessage);
-						prepare=0;
-						start.setText("¿ªÊ¼ÓÎÏ·");
+						prepare = 0;
+						start.setText("å¼€å§‹æ¸¸æˆ");
 						start.setEnabled(true);
 						remake.setEnabled(false);
 						lose.setEnabled(false);
 						quit.setEnabled(true);
 						contre.setChickeAble(false);
 						player.setState(0);
-						player.initPlayerChessCoord();		
+						player.initPlayerChessCoord();
 						repaint();
-					}else {
+					} else {
 						contre.setChickeAble(false);
 						GameHall.mainPage.remake.setEnabled(false);
 						GameHall.mainPage.lose.setEnabled(false);
-						
-						//¼ÇÂ¼ÏÂÆåµØ·½
-						List<Integer> list=new ArrayList<>();
+
+						// è®°å½•ä¸‹æ£‹åœ°æ–¹
+						List<Integer> list = new ArrayList<>();
 						list.add(px);
 						list.add(py);
 						player.getRecord().push(list);
